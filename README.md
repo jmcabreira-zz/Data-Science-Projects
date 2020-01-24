@@ -1,4 +1,5 @@
 
+![](image/CabreiraLogo.png)
 
 # Projects :
  - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
