@@ -1,6 +1,8 @@
 
 ![](image/CabreiraLogo.png)
 
+
+This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
  - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
  - Basic-Diabetes-Predicton-Using-Machine-Learning
