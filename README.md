@@ -1,6 +1,6 @@
 # This is the Repo in which I post my Data Science, Machine Learning and Deep Learning Projects 
 
-#Projects :
+# Projects :
  - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
  - Basic-Diabetes-Predicton-Using-Machine-Learning
  - Do-Females-employees-make-less-money-
