@@ -4,11 +4,11 @@
 
 This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
+ - Movie Review WebApp
  - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
  - Basic-Diabetes-Predicton-Using-Machine-Learning
  - Do-Females-employees-make-less-money-
  - Machine-Learning-with-Apache-Spark
- - Movie Review WebApp
  - Understanding-consumer-behavior-on-Black-Friday
  
  # About me :
