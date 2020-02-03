@@ -17,5 +17,5 @@ This is the repo in which I post my data science, machine learning and deep lear
 
 Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
 
-Right now, I’m currently working on projects related to machine learning and data science which includes payment fraud detection , sales prediction and Customer Segmentation.
+Right now, I’m currently working on projects related to machine learning and data science which includes customer segmentation, sales prediction and plagiarism detection.
  
