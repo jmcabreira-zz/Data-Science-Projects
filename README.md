@@ -4,12 +4,12 @@
 
 This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
- - Movie Review WebApp
- - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
- - Basic-Diabetes-Predicton-Using-Machine-Learning
- - Do-Females-employees-make-less-money-
- - Machine-Learning-with-Apache-Spark
- - Understanding-consumer-behavior-on-Black-Friday
+ - [Movie Review WebApp](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Movie%20Review%20Web%20App)
+ - [A-Music-Taste-Analysis-Using-Spotify-API-and-Python](https://github.com/jmcabreira/Data-Science-Projects/blob/master/A-Music-Taste-Analysis-Using-Spotify-API-and-Python./Playlist_analysis_%20.ipynb)
+ - [Basic-Diabetes-Predicton-Using-Machine-Learning](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Basic-Diabetes-Predicton-Using-Machine-Learning)
+ - [Do-Females-employees-make-less-money-](https://github.com/jmcabreira/Data-Science-Projects/blob/master/Do-Females-employees-make-less-money-/Survey_Salary2.ipynb)
+ - [Machine-Learning-with-Apache-Spark](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Pyspark)
+ - [Understanding-consumer-behavior-on-Black-Friday](https://github.com/jmcabreira/Data-Science-Projects/blob/master/Understanding-consumer-behavior-on-Black-Friday/Black_Friday.ipynb)
  
  # About me :
  
