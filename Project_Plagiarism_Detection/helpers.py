@@ -1,6 +1,8 @@
 import re
 import pandas as pd
 import operator 
+from sklearn.feature_extraction.text import CountVectorizer
+import numpy as np
 
 # Add 'datatype' column that indicates if the record is original wiki answer as 0, training data 1, test data 2, onto 
 # the dataframe - uses stratified random sampling (with seed) to sample by task & plagiarism amount 
@@ -110,3 +112,46 @@ def create_text_column(df, file_directory='data/'):
     text_df['Text'] = text
     
     return text_df
+
+
+def ngram_counts(student_answer, wiki_answer, n):
+    
+      
+    #instantiate an ngram counter
+    counts = CountVectorizer(analyzer = 'word', ngram_range = (n,n))
+    
+    #create a dictionary of n-grams by calling '.fit'
+    vocab2int = counts.fit([student_answer,wiki_answer]).vocabulary_
+    
+    # print dictionary os words: index
+    #print(vocab2int)
+    
+    # create array of n-gram counts for the answer and source text
+    ngrams = counts.fit_transform([student_answer,wiki_answer])
+    
+    #row  = th 2 text and columns = indexed vocab terms as mapped in vocab2int
+    ngram_array = ngrams.toarray()
+    
+    return ngram_array
+
+def containment_values(ngram_array):
+    ''' Containment is a measure of text similarity. It is the normalized, 
+       intersection of ngram word counts in two texts.
+       :param ngram_array: an array of ngram counts for an answer and source text.
+       :return: a normalized containment value.'''
+    
+    # create a list that holds the min value fount in a column
+    #so it will hold 0 if there are no matches, and +1 for matching word(s)
+    intersection_list = np.amin(ngram_array, axis = 0)
+    
+    # sum up the number of intersection counts
+    intersection_count = np.sum(intersection_list)
+    
+    #count up the number of n-grams in the answer text
+    answer_index = 0
+    answer_count = np.sum(ngram_array[answer_index])
+    
+    # normalize and get final containment value
+    countainment_value = intersection_count/answer_count
+    
+    return countainment_value
