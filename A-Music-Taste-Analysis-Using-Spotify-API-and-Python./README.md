@@ -8,6 +8,8 @@
  - A-Music-Taste-Analysis-Using-Spotify-API-and-Python
 	- Scraped the audio feature of two Spotify accounts and built a music taste analysis
 	- Trained a machine learning model to predict each list a song would be more likely to belong 
+
+![](image/audio_features.png)
  
  # About me :
  
