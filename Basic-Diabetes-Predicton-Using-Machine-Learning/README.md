@@ -7,7 +7,12 @@
 
  - This project consists in a machine learning model to predic whether patients have diabetes or not based on diagnostic measurements. I used the "Pima Indians Diabetes" dataset, which consists of several independent variables and one target. This dataset is originally from the National Institute of Diabetes and Digestive and Kidney Diseases. 
 
-![](images/features_diab.png)
+![]()
+
+<p align="center">
+  <img  src="images/features_diab.png">
+</p>
+
  
  # About me :
  
