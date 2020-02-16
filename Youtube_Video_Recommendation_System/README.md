@@ -3,11 +3,11 @@
 
 ![](images/CabreiraLogo.png)
 
-# Youtube Video Reccomendation System
+# Youtube Video Recommendation System
 
 # Project :
 
- - The notebook and Python files provided here, once completed, result in a simple web app which interacts with a deployed model performing a youtube video recommendation
+ - The notebook and Python files provided here, once completed, result in a simple web app which interacts with a deployed model performing a youtube video recommendation system
 
 
 
