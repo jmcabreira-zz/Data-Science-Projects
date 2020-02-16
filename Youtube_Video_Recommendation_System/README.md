@@ -28,4 +28,3 @@ Right now, I’m currently working on projects related to machine learning and d
  
 
 
-Please see the [README](https://github.com/udacity/sagemaker-deployment/tree/master/README.md) in the root directory for instructions on setting up a SageMaker notebook and downloading the project files (as well as the other notebooks).
