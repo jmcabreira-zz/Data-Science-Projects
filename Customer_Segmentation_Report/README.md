@@ -1,5 +1,5 @@
 
-![](image/CabreiraLogo.png)
+![](images/CabreiraLogo.png)
 
 
 This is the repo in which I post my data science, machine learning and deep learning projects
