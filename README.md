@@ -4,6 +4,7 @@
 
 This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
+ - [Customer_Segmentation_Report](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Customer_Segmentation_Report)
  - [Plagiarism_Detection](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Project_Plagiarism_Detection)
  - [Youtube Video Reccomendation System](https://github.com/jmcabreira/Data-Science-Projects/blob/master/Youtube_Video_Recommendation_System/README.md)
  - [Movie Review WebApp](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Movie%20Review%20Web%20App)
