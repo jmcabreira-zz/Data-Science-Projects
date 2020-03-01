@@ -25,10 +25,11 @@ def create_missing_code_dict(feat_missing_code_df):
 
 
 
-# Create a dictionary with valid values for each column
 def valid_values_dict(df,missing_dict):
     ''' 
     Iterate over all the df columns and check if value is valid or a missing code.
+    
+    Create a dictionary with valid values for each column.
     
     ARG:
     
@@ -45,9 +46,9 @@ def valid_values_dict(df,missing_dict):
    
 
     valid_values_dict = {}
-    for col in azdias.columns[1:]: # skip first column (LNR)
+    for col in df.columns[1:]: # skip first column (LNR)
         values_dict = {}
-        for val in azdias[col].value_counts().index:
+        for val in df[col].value_counts().index:
             if col not in missing_dict: # cases when column is missing in data_info dataframe 
                 values_dict[val] = val
             elif val not in values_dict and val not in missing_dict[col]:
@@ -56,6 +57,29 @@ def valid_values_dict(df,missing_dict):
 
     return valid_values_dict
 
+
+
+def missing_values_barplt(df, column_name, threshold=50):
+    
+    """
+    Plot the number of missing value per features
+    
+    ARG:
+    df(dataframe) : dataframe containing columns of missing values
+    column_name (string) : string with the name of the column to be plotted 
+    threshould (integer) : number of attributes to be plotted 
+    
+    
+    """
+
+    df_missing = df.sort_values(column_name, ascending=False)[:threshold]
+    fig = plt.figure(figsize=(18,5))
+
+    ax = sns.barplot(df_missing.index, df_missing[column_name], palette="Blues_d")
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    
+    ax.set_title("Missing values {} " .format(column_name),fontsize= 15)
+    ax.set_ylabel('Number of Missing values', fontsize = 13)
 
 
 
