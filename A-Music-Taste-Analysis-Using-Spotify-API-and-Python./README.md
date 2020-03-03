@@ -9,7 +9,14 @@
 	- Scraped the audio feature of two Spotify accounts and built a music taste analysis
 	- Trained a machine learning model to predict each list a song would be more likely to belong 
 
-![](image/kernel.png)
+
+![]()
+
+<p align="center">
+  <img  src="image/kernel.png">
+</p>
+
+
  
  # About me :
  
