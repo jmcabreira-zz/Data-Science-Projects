@@ -88,25 +88,25 @@ def missing_values_barplt(df, column_name, threshold=50):
     
     # <============================================hist_missing_values================================================>
     
-    def hist_missing_values(df,  threshold = None , greater_or_less = None  ):
-        
-        
-        """
-        Creates a histogram of missing values
-        
-        ARG: 
-        
-        df(dataframe) : dataframe containing columns of missing values
-        threshold (integer) : set the threshold in which the dataframe will be parsed
-        greater_or_less (string) : set the relationship between threshold and dataframe (greater or less than)
-       
-        
-        NOTE: This function needs improvement in terms of testing
-        
-        
-        """
+def hist_missing_values(df,  threshold = None , greater_or_less = None  ):
 
-    
+
+    """
+    Creates a histogram of missing values
+
+    ARG: 
+
+    df(dataframe) : dataframe containing columns of missing values
+    threshold (integer) : set the threshold in which the dataframe will be parsed
+    greater_or_less (string) : set the relationship between threshold and dataframe (greater or less than)
+
+
+    NOTE: This function needs improvement in terms of testing
+
+
+    """
+
+
     if threshold == None:
         df = df
     else:
