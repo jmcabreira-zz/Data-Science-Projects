@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+# <=========================================================================================================================>  
+# <============================================ DATA PREPROCESSING ==========================================================> 
+# <==========================================================================================================================>
+
 
 
 # <============================================ create_missing_code_dict ====================================================>
@@ -123,9 +127,48 @@ def hist_missing_values(df,  threshold = None , greater_or_less = None  ):
     plt.ylabel('Number of Features');
     
     
+# <=========================================================================================================================>  
+# <================================================= FEATURE ENGINEERING ====================================================> 
+# <==========================================================================================================================>       
+def unique_values_dict(df):
     
     
-# <============================================ save_csv============================================================> 
+    
+    """ Creates two dictionaries ( one for binary features and other for multiple features) containing
+    both the name of the feature (column) and the total number of unique values
+    
+    ARG:
+    
+    df(dataframe) - dataframe containing the features 
+    
+    RETURNS: 
+    binary_variable (dictionary) - binary features
+    multiple_values_feature (dictionary) - multiple values features
+    
+    NOTE : it inclues ordinal feautes
+    
+    """
+
+    binary_variable = {}
+    multiple_values_feature = {}
+
+    for column in df.columns:
+
+        unique_values = df[column].nunique()
+
+        if unique_values <= 2:
+
+            binary_variable[column] = unique_values
+
+        else:
+            multiple_values_feature[column] = unique_values
+
+    return binary_variable, multiple_values_feature
+
+    
+    
+    
+# <========================================================= save_csv ========================================================> 
     
 
 
