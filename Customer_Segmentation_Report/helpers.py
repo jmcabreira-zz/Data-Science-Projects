@@ -9,6 +9,35 @@ import seaborn as sns
 # <============================================ DATA PREPROCESSING ==========================================================> 
 # <==========================================================================================================================>
 
+# <============================================= missing_code_df ===========================================================>
+
+def missing_code_df(df):
+    ''' 
+    Parse the data_info dataframe in order to have a dataframe with two columns (Attribute and Missing_Value)
+    
+    ARG:
+    df(dataframe) - the dataframe with attributes information
+    
+    RETURNS:
+    df(dataframe) - A parsed dataframe with two columns ( Attribute and Missing_Value)
+    
+
+    '''
+    
+    print('Drop Description, Value and Meaning columns')
+    df.drop(['Description','Value','Meaning'], axis = 1, inplace = True)
+    print()
+    print('Drop duplicates')
+    df.drop_duplicates(keep='first',inplace=True) 
+    print()
+    print('Fillna with -1 in columns with no missing code')
+    df.fillna('[-1]', inplace = True)
+    df.reset_index(drop = True, inplace = True)
+    print()
+    print('            == DataFrame ==')
+    display(df.head())
+
+    return df
 
 
 # <============================================ create_missing_code_dict ====================================================>
