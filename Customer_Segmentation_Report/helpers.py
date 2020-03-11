@@ -253,7 +253,7 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 
 
-def clean_df(df, missing_code_df, columns = None, customer_data = False):
+def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
     
     ''' 
     Clean the datafraame and perform data engineering on it     
@@ -270,12 +270,7 @@ def clean_df(df, missing_code_df, columns = None, customer_data = False):
     
     '''
     
-    
-    
-    
-    
-    
-    
+
     print('====== Delete CUSTOMER_GROUP ONLINE_PURCHASE PRODUCT_GROUP features if customer_df ======')
     print()
     
@@ -417,21 +412,21 @@ def clean_df(df, missing_code_df, columns = None, customer_data = False):
     df_dummies.drop(['EINGEFUEGT_AM'], axis = 1 , inplace = True)
                                                  
     
-    if columns is not None:
+    if is_customer_df is not None:
         
         diff = np.setdiff1d(columns, df_dummies.columns)
-        #for column in diff:
         print(' Missing columns:',diff)
+        print()
         
-        df_dummies[column] = 0.0
-        df_dummies[column] = df_dummies[column].astype('float')
+        print('======================== Add 0 to Missing columns ===================================')
+       
         
-        print(' Add 0 to Missing columns:')
-
+        for column in diff:
             
+            df_dummies[column] = 0.0
+            df_dummies[column] = df_dummies[column].astype('float')
 
-    
-    
+        print('========================= Dataframa is cleaned ======================================')
     return df_dummies    
     
 # <========================================================= save_csv ========================================================> 
