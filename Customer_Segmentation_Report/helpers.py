@@ -156,6 +156,34 @@ def hist_missing_values(df,  threshold = None , greater_or_less = None  ):
     plt.ylabel('Number of Features');
     
     
+    
+def impute_values(df):
+    
+    ''' 
+    Impute most frequent value of a given column (replace nan with most frequent value of the column)
+    
+    ARG:
+    df(dataframe): dataframe that will be imputed
+    
+    RETURNS:
+    df(dataframe): dataframe with most frequent value of a given column inputed 
+    
+    '''
+    
+
+    columns = df.columns[df.isnull().any()]
+
+    for column in columns:
+
+        most_frequent_value = df.groupby([column])[column].count().sort_values(ascending = False).index[0]
+
+        df[column].fillna(most_frequent_value, inplace = True)
+
+    return df
+
+
+
+
 # <=========================================================================================================================>  
 # <================================================= FEATURE ENGINEERING ====================================================> 
 # <==========================================================================================================================>       
@@ -194,8 +222,217 @@ def unique_values_dict(df):
 
     return binary_variable, multiple_values_feature
 
+     
+def one_hot_encode_top_x(df, variable_name, top_x_labels):
+    
+    """Create dummy variables for the most X frequent categories of a given features
+    note: other categories are considered as noise 
+    
+    ARG:
+    
+    top_x_labels (integer): Number of most frequent categories 
+    variable_name (string): Name of the variable
+    df (dataframe): dataframe to be re-encoded 
+    
+    RETURNS:
+    
+    df(dataframe): dataframe with top categories re-encoded (one hot encode)
+
+    """
+   
+    top_x = [x for x in df[variable_name].value_counts().sort_values(ascending = False).head(top_x_labels).index]
     
     
+    for label in top_x:
+        df[variable_name+'_'+label] = np.where(df[variable_name] == label,1,0)
+    
+    df.drop([variable_name], axis = 1, inplace = True)
+    
+    
+    return df  
+
+
+
+def clean_df(df, missing_code_df, columns = None, customer_data = False):
+    
+    ''' 
+    Clean the datafraame and perform data engineering on it     
+    
+    ARG: 
+    df(dataframe): dataframe to be parsed
+    missing_code_df(dataframe): dataframe with missing code of each feature
+    columns(array): array with the column names of the dataframe (after cleaning)
+    customer_data(bool): boolean variable representing whether or not the df is the customer df 
+    
+    RETURNS:
+    df_dummies(dataframe): clean and parsed dataframe
+    
+    
+    '''
+    
+    
+    
+    
+    
+    
+    
+    print('====== Delete CUSTOMER_GROUP ONLINE_PURCHASE PRODUCT_GROUP features if customer_df ======')
+    print()
+    
+    if customer_data:
+        df.drop(['CUSTOMER_GROUP', 'ONLINE_PURCHASE', 'PRODUCT_GROUP'], axis = 1, inplace = True)
+        
+    
+    print('============================= Drop index LNR ============================================')
+    print()
+    
+    df.drop(['LNR'], axis = 1, inplace = True)
+    
+    print('========================== Converte Missing Code ========================================')
+    print()
+    
+
+    missing_dict = create_missing_code_dict(missing_code_df)
+    
+  
+    valid_values_dict_ = valid_values_dict(df, missing_dict)
+    
+    # Dataframe with missing codes converted to nan
+    #df_copy = df.copy()
+
+   
+    for col in df.columns[1:]: 
+
+        df[col] = df[col].map(valid_values_dict_[col])
+        
+    print('=================== Drop Features with more than 40% of missing values ==================')
+    print()
+    
+    columns_to_drop = ['ALTER_KIND4',
+                         'TITEL_KZ',
+                         'ALTER_KIND3',
+                         'D19_TELKO_ONLINE_DATUM',
+                         'D19_BANKEN_OFFLINE_DATUM',
+                         'ALTER_KIND2',
+                         'D19_TELKO_ANZ_12',
+                         'D19_BANKEN_ONLINE_QUOTE_12',
+                         'D19_BANKEN_ANZ_12',
+                         'D19_TELKO_ANZ_24',
+                         'D19_VERSI_ANZ_12',
+                         'D19_TELKO_OFFLINE_DATUM',
+                         'ALTER_KIND1',
+                         'D19_BANKEN_ANZ_24',
+                         'D19_VERSI_ANZ_24',
+                         'D19_BANKEN_ONLINE_DATUM',
+                         'GREEN_AVANTGARDE',
+                         'D19_BANKEN_DATUM',
+                         'AGER_TYP',
+                         'D19_VERSAND_ONLINE_QUOTE_12',
+                         'D19_TELKO_DATUM',
+                         'EXTSEL992',
+                         'D19_GESAMT_ONLINE_QUOTE_12',
+                         'D19_VERSAND_ANZ_12',
+                         'D19_VERSAND_OFFLINE_DATUM',
+                         'D19_GESAMT_ANZ_12',
+                         'KK_KUNDENTYP',
+                         'D19_VERSAND_ANZ_24',
+                         'D19_GESAMT_OFFLINE_DATUM',
+                         'D19_KONSUMTYP',
+                         'D19_GESAMT_ANZ_24',
+                         'D19_VERSAND_ONLINE_DATUM',
+                         'KBA05_BAUMAX',
+                         'D19_GESAMT_ONLINE_DATUM',
+                         'D19_VERSAND_DATUM']
+
+    
+    #df_parsed = df.copy()
+    df.drop(columns_to_drop, axis = 1, inplace = True)
+    
+    
+    print('============================= Delete Columns ============================================')
+    print()
+    
+    # Split dataframe 
+    
+    #df_copy = df_parsed.copy()
+    df = df.dropna(thresh= 250) # Keep only the rows with at least 250 non-NA values
+   
+    
+    print('=================== Impute the missing values (impute most frequent value) ==============')
+    print()
+    
+    
+    df_most_freq_values_imputed = impute_values(df)
+    
+    
+    print('====================== Re-encode binary fature (OST_WEST_KZ) ============================')
+    print()
+    
+    bin_values = {'W': 1, 'O':0}
+    df_most_freq_values_imputed['OST_WEST_KZ'] = df_most_freq_values_imputed['OST_WEST_KZ'].map(bin_values)
+    
+    print('=====================  Re-encode multi-categorical features =============================')
+    print()
+    
+    # replace X with 0 and transform values into numeric
+    df_most_freq_values_imputed['CAMEO_DEUG_2015'] = df_most_freq_values_imputed.CAMEO_DEUG_2015.replace({'X': 0.0 }) 
+    df_most_freq_values_imputed['CAMEO_DEUG_2015'] = pd.to_numeric(df_most_freq_values_imputed['CAMEO_DEUG_2015'])
+    
+    # replace XX with 0 and transform values into numeric in order to sum up int and float categories
+    # convert each category to string so that its possible to compare them 
+    df_most_freq_values_imputed['CAMEO_INTL_2015'] = df_most_freq_values_imputed.CAMEO_INTL_2015.replace({'XX': 0.0 }) 
+    df_most_freq_values_imputed['CAMEO_INTL_2015'] = pd.to_numeric(df_most_freq_values_imputed['CAMEO_INTL_2015'])
+    df_most_freq_values_imputed['CAMEO_INTL_2015'] = df_most_freq_values_imputed.CAMEO_INTL_2015.apply(str)
+    
+
+    
+    # Ohe top_x categories of the variables 
+    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='CAMEO_DEU_2015',top_x_labels = 25)
+    
+    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='CAMEO_INTL_2015',top_x_labels = 25)
+    
+    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='D19_LETZTER_KAUF_BRANCHE',top_x_labels = 16)
+    
+
+    
+    
+    
+    
+    
+    #to_reencode = ['CAMEO_DEU_2015',
+                   #'CAMEO_INTL_2015',
+                   #'D19_LETZTER_KAUF_BRANCHE']
+    
+    
+    #df_dummies = pd.get_dummies(df_most_freq_values_imputed, columns = to_reencode, drop_first = True)
+    
+    print('=================== Re-encode EINGEFUEGT_AM to year and month ===========================')
+    print()
+    
+    df_dummies['EINGEFUEGT_AM'] = pd.to_datetime( df_dummies['EINGEFUEGT_AM'],
+                                                 format = '%Y/%m/%d' )
+                                                 
+    df_dummies['EINGEFUEGT_AM_year'] = df_dummies['EINGEFUEGT_AM'].dt.year
+    df_dummies['EINGEFUEGT_AM_month'] = df_dummies['EINGEFUEGT_AM'].dt.month
+    df_dummies.drop(['EINGEFUEGT_AM'], axis = 1 , inplace = True)
+                                                 
+    
+    if columns is not None:
+        
+        diff = np.setdiff1d(columns, df_dummies.columns)
+        #for column in diff:
+        print(' Missing columns:',diff)
+        
+        df_dummies[column] = 0.0
+        df_dummies[column] = df_dummies[column].astype('float')
+        
+        print(' Add 0 to Missing columns:')
+
+            
+
+    
+    
+    return df_dummies    
     
 # <========================================================= save_csv ========================================================> 
     
