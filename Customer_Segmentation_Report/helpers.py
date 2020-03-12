@@ -253,7 +253,7 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 
 
-def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
+def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     
     ''' 
     Clean the datafraame and perform data engineering on it     
@@ -269,13 +269,15 @@ def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
     
     
     '''
-    
 
-    print('====== Delete CUSTOMER_GROUP ONLINE_PURCHASE PRODUCT_GROUP features if customer_df ======')
-    print()
-    
-    if customer_data:
+    if is_customer_df:
+        
+        print('======================== WORKING ON CUSTOMER DATAFRAME =================================')
+        print('====== Delete CUSTOMER_GROUP, ONLINE_PURCHASE, PRODUCT_GROUP features ===============')
+        print()
         df.drop(['CUSTOMER_GROUP', 'ONLINE_PURCHASE', 'PRODUCT_GROUP'], axis = 1, inplace = True)
+    else:
+        print('======================== WORKING ON AZDIAS DATAFRAME ===================================')
         
     
     print('============================= Drop index LNR ============================================')
@@ -388,18 +390,13 @@ def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
     
     df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='D19_LETZTER_KAUF_BRANCHE',top_x_labels = 16)
     
-
-    
-    
-    
-    
     
     #to_reencode = ['CAMEO_DEU_2015',
                    #'CAMEO_INTL_2015',
-                   #'D19_LETZTER_KAUF_BRANCHE']
-    
-    
+                   #'D19_LETZTER_KAUF_BRANCHE']    
     #df_dummies = pd.get_dummies(df_most_freq_values_imputed, columns = to_reencode, drop_first = True)
+    
+    
     
     print('=================== Re-encode EINGEFUEGT_AM to year and month ===========================')
     print()
@@ -412,9 +409,9 @@ def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
     df_dummies.drop(['EINGEFUEGT_AM'], axis = 1 , inplace = True)
                                                  
     
-    if is_customer_df is not None:
+    if column_names is not None:
         
-        diff = np.setdiff1d(columns, df_dummies.columns)
+        diff = np.setdiff1d(column_names, df_dummies.columns)
         print(' Missing columns:',diff)
         print()
         
@@ -427,6 +424,7 @@ def clean_df(df, missing_code_df, columns = None, is_customer_df = False):
             df_dummies[column] = df_dummies[column].astype('float')
 
         print('========================= Dataframa is cleaned ======================================')
+        
     return df_dummies    
     
 # <========================================================= save_csv ========================================================> 
