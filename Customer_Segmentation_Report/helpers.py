@@ -426,7 +426,48 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
         print('========================= Dataframa is cleaned ======================================')
         
     return df_dummies    
+
+
+def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     
+    '''
+    Plot graphs for PCA analysis (cumulative variance x number of components and percentage of variance explained x 
+    number of components)
+     
+    ARG:
+    n_components (integer): number of components
+    index (array) : array with the same number of components 
+    var_values(array): variance explained by the components
+    cum_sum(array): cumulative variance explained
+
+    '''
+    
+    
+    # Frist Plot
+    plt.figure(figsize=(13,15))
+    plt.subplot(2, 1, 1)
+    plt.bar(index, cumulative_sum_var,color = 'lightsteelblue')
+    plt.ylabel('Cumulative Explaiden Variance (%)')
+    plt.xlabel('Number of Principal Components')
+    plt.xticks(np.linspace(0,500, 10, endpoint=False))
+    #plt.yticks(np.linspace(0,100, 5, endpoint= True))
+    plt.title('PCA Analysis Graph')
+
+
+    # 196 components
+    plt.hlines(y=90, xmin=0, xmax=196, color='black', linestyles='-',zorder=5)
+    plt.vlines(x=196, ymin=0, ymax=90, color='black', linestyles='-',zorder=6)
+
+
+    #Second Plot
+    plt.subplot(2, 1, 2)
+    plt.bar(index, values,color = 'lightsteelblue')
+    plt.xticks(np.linspace(0,500, 10, endpoint=False))
+    plt.xlabel('Number of Principal Components')
+    plt.ylabel(' Variance Explained (%)')
+    plt.title('PCA Analysis Graph');
+    
+
 # <========================================================= save_csv ========================================================> 
     
 
