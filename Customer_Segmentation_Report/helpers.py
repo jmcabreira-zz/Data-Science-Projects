@@ -427,7 +427,8 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
         
     return df_dummies    
 
-
+# <=============================================== pca_analysis_plot =========================================================> 
+    
 def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     
     '''
