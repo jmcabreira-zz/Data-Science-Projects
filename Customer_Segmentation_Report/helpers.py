@@ -429,6 +429,7 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
 
 # <=============================================== pca_analysis_plot =========================================================> 
     
+    
 def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     
     '''
@@ -468,7 +469,41 @@ def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     plt.ylabel(' Variance Explained (%)')
     plt.title('PCA Analysis Graph');
     
+# <=============================================== pca_analysis_plot =========================================================>
+ 
+def explained_variance_and_weights_df(df,pca_obj, component):
+    
+    pca_df = pd.DataFrame(columns=list(azdias_scaled_df.columns))
 
+    # Principal axes in feature space, representing the directions of maximum variance in the data.
+    # The components are sorted by explained_variance_.
+    pca_df.loc[0] = pca.components_[component]
+
+    #index
+    dim_index = "Dimension: {}".format(component + 1)
+    pca_df.index = [dim_index]
+
+    #sort weights
+    pca_df = pca_df.loc[:, pca_df.max().sort_values(ascending=False).index]
+    
+    
+    #Percentage of variance explained by the selected component.
+    explained_variance = np.round(pca.explained_variance_ratio_[component], 4)
+    
+    explained_variance_dict = {'Explained_variance':[explained_variance]}
+    explained_variance_df = pd.DataFrame(explained_variance_dict)
+    explained_variance_df.set_index('Explained_variance')
+    
+    explained_variance_df.index = [dim_index]
+    
+    display(explained_variance_df)
+    display(pca_df)
+ 
+    
+    
+    
+    
+    
 # <========================================================= save_csv ========================================================> 
     
 
