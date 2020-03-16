@@ -469,9 +469,27 @@ def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     plt.ylabel(' Variance Explained (%)')
     plt.title('PCA Analysis Graph');
     
-# <=============================================== pca_analysis_plot =========================================================>
+# <============================================ explained_variance_and_weights_df ===========================================>
  
 def explained_variance_and_weights_df(df,pca_obj, component):
+    
+    
+     '''
+     Creates one dataframe that display the percentage of variance explained by the selected component and other 
+     dataframe that maps each weight to its corresponding feature  
+     
+     ARGS:
+     df(dataframe): scaled dataframe 
+     pca_obj(pca): pca object that will be applied
+     component()integer) : number of principal component
+     
+     RETURNS:
+     pca_df(dataframe): Sorted dataframe with features and its respective wight
+     explained_variance_df(dataframe): dataframe with the percentage of explained variance
+
+     
+     '''
+    
     
     pca_df = pd.DataFrame(columns=list(azdias_scaled_df.columns))
 
@@ -496,8 +514,10 @@ def explained_variance_and_weights_df(df,pca_obj, component):
     
     explained_variance_df.index = [dim_index]
     
-    display(explained_variance_df)
-    display(pca_df)
+    #display(explained_variance_df)
+    
+    #display(pca_df)
+    return pca_df, explained_variance_df
  
     
     
