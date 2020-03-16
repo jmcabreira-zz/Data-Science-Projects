@@ -519,7 +519,26 @@ def explained_variance_and_weights_df(df,pca_obj, component):
     #display(pca_df)
     return pca_df, explained_variance_df
  
+# <======================================================= plot_pca =========================================================>
+     
     
+def plot_pca(dimension_1_df, num= 1):
+    
+  ''' 
+    Plot the 5 highest and the lowest weights and its corresponding feature
+  
+  '''
+
+ 
+    features = dimension_1_df.iloc[:, np.r_[1:6,-5:0]]
+    feature_names = features.columns
+    weights = features.iloc[0].values
+
+    fig = plt.figure(figsize=(10, 5))
+    sns.set()
+
+    ax = sns.barplot(x=weights, y=feature_names, palette="Blues_d")
+    ax.set(xlabel="Weight", ylabel="Feature", title=f'Dimension {num}')
     
     
     
