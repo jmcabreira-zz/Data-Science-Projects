@@ -181,6 +181,28 @@ def impute_values(df):
 
     return df
 
+# <============================================ compare_df_plot ===================================================> 
+
+def compare_df_plot(df_low_missing, df_high_missing, column_names):
+    
+    
+    ''' Compare distribution of two dataframes'''
+    
+    for column_name in column_names:
+    
+        fig = plt.figure(figsize = (15,5))
+        ax1 = fig.add_subplot(121)
+        ax1.title.set_text('Low Missing Values')
+        sns.countplot(df_low_missing.loc[:, column_name])
+
+        ax2 = fig.add_subplot(122)
+        ax2.title.set_text('High Missing Values')
+        sns.countplot(df_high_missing.loc[:,column_name])      
+        
+        #fig.subtitle(column_name)
+        plt.plot()
+
+
 
 
 
@@ -492,7 +514,7 @@ def explained_variance_and_weights_df(df,pca_obj, component):
 
 
 
-    pca_df = pd.DataFrame(columns= list(df.columns))
+    pca_df = pd.DataFrame(columns= list(azdias_scaled_df.columns))
 
     # Principal axes in feature space, representing the directions of maximum variance in the data.
     # The components are sorted by explained_variance_.
