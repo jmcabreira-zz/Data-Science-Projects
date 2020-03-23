@@ -298,6 +298,7 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
         print('====== Delete CUSTOMER_GROUP, ONLINE_PURCHASE, PRODUCT_GROUP features ===============')
         print()
         df.drop(['CUSTOMER_GROUP', 'ONLINE_PURCHASE', 'PRODUCT_GROUP'], axis = 1, inplace = True)
+        print('shape after removing 3 columns: ',df.shape)
     else:
         print('======================== WORKING ON AZDIAS DATAFRAME ===================================')
         
@@ -306,14 +307,16 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     print()
     
     df.drop(['LNR'], axis = 1, inplace = True)
+    print('shape after removing LNR columns: ',df.shape)
     
     print('========================== Converte Missing Code ========================================')
     print()
     
-
+    
+    from helpers import create_missing_code_dict
     missing_dict = create_missing_code_dict(missing_code_df)
     
-  
+    from helpers import valid_values_dict
     valid_values_dict_ = valid_values_dict(df, missing_dict)
     
     # Dataframe with missing codes converted to nan
@@ -323,7 +326,9 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     for col in df.columns[1:]: 
 
         df[col] = df[col].map(valid_values_dict_[col])
-        
+     
+    print('shape after converting missing code: ',df.shape)
+    
     print('=================== Drop Features with more than 40% of missing values ==================')
     print()
     
@@ -366,7 +371,7 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     
     #df_parsed = df.copy()
     df.drop(columns_to_drop, axis = 1, inplace = True)
-    
+    print('shape after dropping all columns with more than 40% of missing values: ',df.shape)
     
     print('============================= Delete Columns ============================================')
     print()
@@ -375,48 +380,63 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     
     #df_copy = df_parsed.copy()
     df = df.dropna(thresh= 250) # Keep only the rows with at least 250 non-NA values
-   
+    print()
+    print('shape after dropping rows with more thab 250 missing values: ',df.shape)
     
     print('=================== Impute the missing values (impute most frequent value) ==============')
     print()
     
-    
+    from helpers import impute_values
     df_most_freq_values_imputed = impute_values(df)
-    
+    print()
+    print('Shape after imputation ', df_most_freq_values_imputed.shape)
     
     print('====================== Re-encode binary fature (OST_WEST_KZ) ============================')
     print()
     
     bin_values = {'W': 1, 'O':0}
     df_most_freq_values_imputed['OST_WEST_KZ'] = df_most_freq_values_imputed['OST_WEST_KZ'].map(bin_values)
+    print()
+    
+    print('Shape after reencoding OST_WEST_KZ column,', df_most_freq_values_imputed.shape)
     
     print('=====================  Re-encode multi-categorical features =============================')
     print()
     
+
+    
+    
+    from helpers import one_hot_encode_top_x
     # replace X with 0 and transform values into numeric
     df_most_freq_values_imputed['CAMEO_DEUG_2015'] = df_most_freq_values_imputed.CAMEO_DEUG_2015.replace({'X': 0.0 }) 
     df_most_freq_values_imputed['CAMEO_DEUG_2015'] = pd.to_numeric(df_most_freq_values_imputed['CAMEO_DEUG_2015'])
+    print()
+    print('Shape after replacing X with O - CAMEO_DEUG_2015 column,', df_most_freq_values_imputed.shape)
     
     # replace XX with 0 and transform values into numeric in order to sum up int and float categories
     # convert each category to string so that its possible to compare them 
     df_most_freq_values_imputed['CAMEO_INTL_2015'] = df_most_freq_values_imputed.CAMEO_INTL_2015.replace({'XX': 0.0 }) 
     df_most_freq_values_imputed['CAMEO_INTL_2015'] = pd.to_numeric(df_most_freq_values_imputed['CAMEO_INTL_2015'])
     df_most_freq_values_imputed['CAMEO_INTL_2015'] = df_most_freq_values_imputed.CAMEO_INTL_2015.apply(str)
-    
+    print()
+    print('Shape after replacing XX with O - CAMEO_INTL_2015 column,', df_most_freq_values_imputed.shape)
+     
 
     
     # Ohe top_x categories of the variables 
-    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='CAMEO_DEU_2015',top_x_labels = 25)
+    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='CAMEO_DEU_2015',top_x_labels = 44)
+    
+    print('Shape after one_hot_encode_top_x - CAMEO_DEU_2015 column (top 25),', df_dummies.shape)
     
     df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='CAMEO_INTL_2015',top_x_labels = 25)
     
-    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='D19_LETZTER_KAUF_BRANCHE',top_x_labels = 16)
+    print('Shape after one_hot_encode_top_x - CAMEO_INTL_2015 column (top 25),', df_dummies.shape)
+        
+    df_dummies = one_hot_encode_top_x(df_most_freq_values_imputed, variable_name ='D19_LETZTER_KAUF_BRANCHE',top_x_labels = 33)
     
+    print('Shape after one_hot_encode_top_x - D19_LETZTER_KAUF_BRANCHE column (top 16),', df_dummies.shape)
     
-    #to_reencode = ['CAMEO_DEU_2015',
-                   #'CAMEO_INTL_2015',
-                   #'D19_LETZTER_KAUF_BRANCHE']    
-    #df_dummies = pd.get_dummies(df_most_freq_values_imputed, columns = to_reencode, drop_first = True)
+
     
     
     
@@ -429,7 +449,10 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     df_dummies['EINGEFUEGT_AM_year'] = df_dummies['EINGEFUEGT_AM'].dt.year
     df_dummies['EINGEFUEGT_AM_month'] = df_dummies['EINGEFUEGT_AM'].dt.month
     df_dummies.drop(['EINGEFUEGT_AM'], axis = 1 , inplace = True)
-                                                 
+     
+    print('Shape after reencoding - EINGEFUEGT_AM to month and year columns),', df_dummies.shape)
+    
+ 
     
     if column_names is not None:
         
@@ -444,6 +467,9 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
             
             df_dummies[column] = 0.0
             df_dummies[column] = df_dummies[column].astype('float')
+            
+        
+        print('Shape after adding missing columns',df_dummies.shape)
 
         print('========================= Dataframa is cleaned ======================================')
         
