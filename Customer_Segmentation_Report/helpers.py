@@ -540,7 +540,7 @@ def explained_variance_and_weights_df(df,pca_obj, component):
 
 
 
-    pca_df = pd.DataFrame(columns= list(azdias_scaled_df.columns))
+    pca_df = pd.DataFrame(columns= list(df.columns))
 
     # Principal axes in feature space, representing the directions of maximum variance in the data.
     # The components are sorted by explained_variance_.
