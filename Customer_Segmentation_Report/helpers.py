@@ -496,7 +496,7 @@ def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
     # Frist Plot
     plt.figure(figsize=(13,15))
     plt.subplot(2, 1, 1)
-    plt.bar(index, cumulative_sum_var,color = 'lightsteelblue')
+    plt.bar(index, cum_sum,color = 'lightsteelblue')
     plt.ylabel('Cumulative Explaiden Variance (%)')
     plt.xlabel('Number of Principal Components')
     plt.xticks(np.linspace(0,500, 10, endpoint=False))
@@ -505,8 +505,8 @@ def pca_analysis_plot(n_conponents, index, var_values, cum_sum):
 
 
     # 196 components
-    plt.hlines(y=90, xmin=0, xmax=196, color='black', linestyles='-',zorder=5)
-    plt.vlines(x=196, ymin=0, ymax=90, color='black', linestyles='-',zorder=6)
+    plt.hlines(y=89, xmin=0, xmax=215, color='black', linestyles='-',zorder=5)
+    plt.vlines(x=215, ymin=0, ymax=89, color='black', linestyles='-',zorder=6)
 
 
     #Second Plot
