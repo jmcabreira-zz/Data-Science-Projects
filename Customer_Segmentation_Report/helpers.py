@@ -585,6 +585,40 @@ def plot_pca(dimension_1_df, num= 1):
 
     ax = sns.barplot(x=weights, y=feature_names, palette="Blues_d")
     ax.set(xlabel="Weight", ylabel="Feature", title=f'Dimension {num}')
+    
+ 
+    
+# <========================================== plot_clusters_distribution_comparison ========================================>
+         
+
+
+def plot_clusters_distribution_comparison(column, customer, general, clusters = []):
+    
+    
+    ''' Plot distribution of two clusters
+    
+    ARG: 
+    column (string): name of the column to be plotted 
+    customers (dataframe): customer data frame representing the cluster to be plotted
+    general (dataframe):  general population dataframe reprsenting the cluster to be plotted
+    
+    ''' 
+    
+    if len(clusters) > 2:
+        print('Plotting the distribution of the first 2 clusters',clusters[0],'and',clusters[1])
+        
+
+    fig, (ax1, ax2) = plt.subplots(figsize=(12,4), ncols=2)
+    sns.countplot(x=column, data=customer, ax=ax1, palette= "Blues_d")
+    ax1.set_xlabel('Value')
+    ax1.set_title(f'Customer Distribution for cluster: {clusters[0]}')
+    
+    
+    
+    sns.countplot(x=column, data=general, ax=ax2, palette= "Blues_d")
+    ax2.set_xlabel('Value')
+    ax2.set_title(f'General population Distribution for cluster: {clusters[1]}')
+    fig.suptitle(f'Feature: {column}')
 
 
 # <========================================================= save_csv ========================================================> 
