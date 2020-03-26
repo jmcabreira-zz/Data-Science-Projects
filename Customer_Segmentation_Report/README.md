@@ -15,12 +15,33 @@ This is the repo in which I post my data science, machine learning and deep lear
   <img  src="images/Segmentation.png">
 </p>
 ---
- 
- # About me :
- 
- I am an electrical engineer turned data scientist who loves leveraging data-driven solutions that make an impact on business and society. My first encounter with data science occurred when I worked as a student researcher at the Applied Computational Intelligence Laboratory (Fluminense Federal University) in which I built Artificial Neural Network models for power forecast.
+ # Project Motivation:
 
-Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
+ This project applies Machine Learning algorithms in order to get information about potencial customers out of demographic data. It is the capastone project of the Udacity Machine Learning Engineer Nanodegree program which is provided by Arvato Financial Solutions, a Bertelsmann subsidiary. I chose this project mainly because the data provided is real and almost no cleaning has been done to it. In addition to that, I really enjoy understanding business and customer needs in order to provide best experience for both the company and those who make use of a business product or service.
 
-Right now, I’m currently working on projects related to machine learning and data science which includes  customer segmentation, recommendation system and marketing campaign response ( Identify potential customers)
+ # Data:
+
+ The data for this project has been provided by Arvato Financial Solutions, a subsidiary of
+Bertelsmann in Germany. There are four data files associated with this project as follows:
+
+- Udacity_AZDIAS_052018.csv : Demographics data for the general population of Germany 
+	- (891 211 persons (rows) x 366 features (columns))
+- Udacity_CUSTOMERS_052018.csv : Demographics data for customers of a mail-order company
+	- 191 652 persons (rows) x 369 features (columns)
+- Udacity_MAILOUT_052018_TRAIN.csv : Demographics data for individuals who were targets of a marketing campaign
+	- 42 982 persons (rows) x 367 (columns)
+- Udacity_MAILOUT_052018_TEST.csv: Demographics data for individuals who were targets of a marketing campaign
+	- 42 833 persons (rows) x 366 (columns)
+- DIAS Information Levels — Attributes 2017.xlsx : Top-level list of attributes and descriptions, organized by informational category
+- DIAS Attributes — Values 2017.xlsx: Data values for each variable in alphabetical order 
+
+Note: the DIAS Information Levels and the DIAS Attributes xlsx files has been translated to the data_info.csv file, which contains information regarding the features and their
+respective possible values. 
+
+# Libraries 
+
+Pandas, Numpy,Sklearn,Seaborn.Pickle,matplotlib
+
+
+
 
