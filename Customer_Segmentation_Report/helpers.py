@@ -275,7 +275,7 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 
 
-def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
+def clean_df(df, missing_code_df, column_names = None, is_customer_df = False, keep_LNR = False):
     
     ''' 
     Clean the datafraame and perform data engineering on it     
@@ -300,14 +300,26 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
         df.drop(['CUSTOMER_GROUP', 'ONLINE_PURCHASE', 'PRODUCT_GROUP'], axis = 1, inplace = True)
         print('shape after removing 3 columns: ',df.shape)
     else:
-        print('======================== WORKING ON AZDIAS DATAFRAME ===================================')
+        print('================ WORKING ON AZDIAS| MAILOUT_TRAIN| MAILOUT_TEST DATAFRAME ==============')
         
     
     print('============================= Drop index LNR ============================================')
     print()
     
-    df.drop(['LNR'], axis = 1, inplace = True)
-    print('shape after removing LNR columns: ',df.shape)
+    
+    if keep_LNR:
+        
+        
+        pass
+    
+    else:
+        
+        print('============================= Drop index LNR ========================================')
+        print()
+        df.drop(['LNR'], axis = 1, inplace = True)
+        print('shape after removing LNR columns: ',df.shape)
+        
+
     
     print('========================== Converte Missing Code ========================================')
     print()
@@ -371,7 +383,9 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     
     #df_parsed = df.copy()
     df.drop(columns_to_drop, axis = 1, inplace = True)
+    print()
     print('shape after dropping all columns with more than 40% of missing values: ',df.shape)
+    print()
     
     print('============================= Delete Columns ============================================')
     print()
@@ -381,15 +395,18 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     #df_copy = df_parsed.copy()
     df = df.dropna(thresh= 250) # Keep only the rows with at least 250 non-NA values
     print()
-    print('shape after dropping rows with more thab 250 missing values: ',df.shape)
+    print('shape after dropping rows with more than 250 missing values: ',df.shape)
+    print()
     
     print('=================== Impute the missing values (impute most frequent value) ==============')
     print()
     
-    from helpers import impute_values
+    from helpers import impute_values   
     df_most_freq_values_imputed = impute_values(df)
+    
     print()
     print('Shape after imputation ', df_most_freq_values_imputed.shape)
+    print()
     
     print('====================== Re-encode binary fature (OST_WEST_KZ) ============================')
     print()
@@ -399,6 +416,7 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False):
     print()
     
     print('Shape after reencoding OST_WEST_KZ column,', df_most_freq_values_imputed.shape)
+    print()
     
     print('=====================  Re-encode multi-categorical features =============================')
     print()
