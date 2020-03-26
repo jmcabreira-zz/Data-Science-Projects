@@ -14,12 +14,12 @@ This is the repo in which I post my data science, machine learning and deep lear
 <p align="center">
   <img  src="images/Segmentation.png">
 </p>
----
- # Project Motivation:
+
+# Project Motivation:
 
  This project applies Machine Learning algorithms in order to get information about potencial customers out of demographic data. It is the capastone project of the Udacity Machine Learning Engineer Nanodegree program which is provided by Arvato Financial Solutions, a Bertelsmann subsidiary. I chose this project mainly because the data provided is real and almost no cleaning has been done to it. In addition to that, I really enjoy understanding business and customer needs in order to provide best experience for both the company and those who make use of a business product or service.
 
- # Data:
+# Data:
 
  The data for this project has been provided by Arvato Financial Solutions, a subsidiary of
 Bertelsmann in Germany. There are four data files associated with this project as follows:
