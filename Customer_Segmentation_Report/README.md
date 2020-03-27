@@ -19,6 +19,12 @@ This is the repo in which I post my data science, machine learning and deep lear
 
  This project applies Machine Learning algorithms in order to get information about potential customers out of demographic data. It is the Capstone project of the Udacity Machine Learning Engineer Nanodegree program which is provided by Arvato Financial Solutions, a Bertelsmann subsidiary. I chose this project mainly because the data provided is real and almost no cleaning has been done to it. In addition to that, I really enjoy understanding business and customer needs in order to provide best experience for both the company and those who make use of a business product or service.
 
+
+# Repository :
+- Arvato_Project_Workbook.ipynb - Notebook with all projects scripts and documentation
+- Data_info.csv - feature informations
+- helpers.py - python file with functions of the project
+
 # Data:
 
  The data for this project has been provided by Arvato Financial Solutions, a subsidiary of
