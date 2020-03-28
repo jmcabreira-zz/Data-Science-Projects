@@ -275,7 +275,7 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 
 
-def clean_df(df, missing_code_df, column_names = None, is_customer_df = False, keep_LNR = False):
+def clean_df(df, missing_code_df, column_names = None, is_customer_df = False, keep_LNR = False , is_mail_test = False):
     
     ''' 
     Clean the datafraame and perform data engineering on it     
@@ -392,8 +392,14 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False, k
     
     # Split dataframe 
     
-    #df_copy = df_parsed.copy()
-    df = df.dropna(thresh= 250) # Keep only the rows with at least 250 non-NA values
+    if is_mail_test:
+            
+            pass
+       
+    else:
+            df = df.dropna(thresh= 250) # Keep only the rows with at least 250 non-NA values
+            
+    
     print()
     print('shape after dropping rows with more than 250 missing values: ',df.shape)
     print()
@@ -492,10 +498,6 @@ def clean_df(df, missing_code_df, column_names = None, is_customer_df = False, k
         print('========================= Dataframa is cleaned ======================================')
         
     return df_dummies    
-
-# <=========================================================================================================================>  
-# <================================================= UNSUPERVISED MODELS ====================================================> 
-# <==========================================================================================================================>  
 
 # <=============================================== pca_analysis_plot =========================================================> 
     
