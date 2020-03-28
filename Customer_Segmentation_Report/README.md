@@ -12,7 +12,7 @@ This is the repo in which I post my data science, machine learning and deep lear
  	- Analyse demographics information for targets of a marketing campaign for the company, and build a model to predict which individuals are most likely to convert into becoming customers for the company
 
 <p align="center">
-  <img  src="images/Segmentation.png">
+  <img  src="images/customer.png">
 </p>
 
 # Project Motivation:
