@@ -4,7 +4,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-
+# <=========================================================================================================================>  
+# <============================================ DATA PREPROCESSING ==========================================================> 
+# <==========================================================================================================================>
 
 #================================================ trim_axs ==========================================================
 def trim_axs(axs, N):
@@ -176,6 +178,11 @@ def feature_engineering_ordinal(df):
         
     return df
 
+
+# <=========================================================================================================================>  
+# <============================================  FEATURE ENGINEERING ========================================================> 
+# <==========================================================================================================================>
+
 #================================================ one_hot_encode_top_x ========================================================  
 
 def one_hot_encode_top_x(df, variable_name, top_x_labels):
@@ -220,3 +227,175 @@ def feature_engineering_encode(df):
     df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_MT',top_x_labels = 9)
     
     return df_dummies
+
+# <=========================================================================================================================>  
+# <============================================ SUPERVISED LEARNING MODEL ===================================================> 
+# <==========================================================================================================================>
+
+#================================================ create_base_models ========================================================  
+
+def create_base_models():
+    
+    '''Create base line models
+    ARG: 
+    None
+    
+    RETURNS:
+    models(list): list containing base line models'''
+
+    models = []
+    #models.append(('Linear Regression', LinearRegression()))
+    models.append(('Lasso', Lasso()))
+    models.append(('Ridge', Ridge()))
+    models.append(('ElasticNet', ElasticNet()))
+    models.append(('RandromForest', RandomForestRegressor(random_state = seed)))
+    models.append(('GradientBoost', GradientBoostingRegressor(random_state = seed)))
+    models.append(('BagginRegressor', BaggingRegressor(random_state = seed)))
+    models.append(('SVM' , SVR()))
+    
+    
+    return models
+
+#================================================ evaluate_models ========================================================== 
+
+
+def evaluate_models(features, grades, models, learning_curve_ = False):
+    ''' Evaluates models using X-Fold cross-validation. 
+    Learning curve can also be plotted (optional).
+
+    Args:
+        features (dataframe) - dataset to be used for training.
+        response (dataframe) - target variable
+        models (list) - list of models to evaluated.
+        curve (bool) - whether or not to plot learning curve.
+
+    Returns:
+        names (list) - list of models tested.
+        results (list) - list of results for each model.
+    '''  
+    
+    results = []
+    names = []
+    
+    for name, model in models:
+        cv_results = cross_val_score(model, 
+                                    features,grades,
+                                    cv = 10,
+                                    scoring = 'neg_mean_squared_error',
+                                    n_jobs = -1 )
+        
+        rmse = np.sqrt(-cv_results)
+        rmse_score = np.round(np.mean(rmse),2)
+        rmse_std = np.round(np.str(rmse),2)
+        
+        results.append(rmse_score)
+        names.append(name)
+        
+        print()
+        print('RMSE score for {} is {} with std of {}'.format(name, rmse_score, rmse_std))
+        
+        if learning_curve_:
+            plot_learning_curve(features, grades, model)
+            
+            
+    return names, results
+    
+#================================================ plot_learning_curve ==========================================================
+    
+def plot_learning_curve(features, grades, name, model):
+    '''Plot learning curve curve of each model
+    
+    ARG: 
+    features(datafame): dataframe with the features of the model
+    grades(Serie): Serie with the target values
+    models(list): list of models to be performed 
+    
+    RETURNS:
+        none '''
+
+    #for name, model in models:
+    train_sizes, train_scores, test_scores = learning_curve(model,features,
+                                                        grades,  cv = 10 , 
+                                                        scoring = 'neg_mean_squared_error',
+                                                        train_sizes = np.linspace(0.1, 1.0, 10),
+                                                        n_jobs = -1) 
+    plt.grid()
+
+
+    # Create means and standard deviations of training set score
+    train_scores_mean = np.mean(train_scores, axis = 1)
+    rmse_train = np.sqrt(-train_scores_mean)
+    rmse_train_std = np.std(rmse_train)
+    #train_std = np.std(train_scores, axis = 1)
+
+
+    # Create means and standard deviations of test set score
+    test_scores_mean = np.mean(test_scores, axis = 1)
+    rmse_test = np.sqrt(-test_scores_mean)
+    rmse_test_std = np.std(rmse_test)
+
+
+    #test_std = np.std(test_scores, axis = 1)
+
+    #Draw curve
+    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_train, 'o-', color = "#111111",  label = 'training score')
+    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_test,'o-', color = "blue", label ='cros-validation score' )
+
+    #Draw bands
+
+    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_train - rmse_train_std, rmse_train + rmse_train_std, color="#DDDDDD")
+    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_test - rmse_test_std, rmse_test + rmse_test_std, color="#DDDDDD")
+
+
+    # Plot
+    plt.title('Learning Curve for {} model'.format(name))
+    plt.xlabel('% of training set')
+    plt.ylabel('RMS')
+    #plt.yticks(np.arange(0.45, 1.02, 0.05))
+    plt.xticks(np.arange(0., 100.05, 10))
+    plt.legend(loc = 'best')
+    plt.tight_layout()
+    plt.show()
+    print()
+    
+    
+#================================================ f_regression_featue_selection ==========================================================
+
+
+
+
+def f_regression_featue_selection( features,grades, num_features, display_df = False):
+    '''Select features by calculating the correlation between each regressor and the target variable,
+    than converting to an F score then to a p-value
+    
+    ARG:
+    df(dataframe) : dataframe in which the test will be performed
+    num_features(integer): number of top features to be selected
+    
+    RETURNS:
+    score_df(dataframe): dataframe with the top score features
+    
+    '''
+    from sklearn.feature_selection import SelectKBest
+    from sklearn.feature_selection import f_regression
+    
+    k_best = SelectKBest(score_func = f_regression, k = num_features)
+
+    k_best.fit(features, grades )
+    
+    
+    print('Top {} features:'.format(num_features))
+    print()
+    feature_scores = pd.Series(data = k_best.scores_ , index = features.columns)
+    feature_scores.nlargest(num_features).plot(kind = 'barh', figsize = (8,6))
+    plt.ylabel('features')
+    plt.xlabel('Scores')
+    plt.title('Feature Scores X Feature names')
+
+    score_df = pd.DataFrame(data = k_best.scores_, index = features.columns, columns =['Score']).iloc[:num_features]
+    
+    if display_df:
+        display(score_df)
+    
+    return score_df
+    
