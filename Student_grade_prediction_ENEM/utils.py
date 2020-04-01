@@ -14,6 +14,7 @@ from sklearn.linear_model import Ridge
 from sklearn.linear_model import ElasticNet
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVR 
+from sklearn.preprocessing import StandardScaler,MinMaxScaler
 
 
 from sklearn.metrics import make_scorer
@@ -430,3 +431,55 @@ def f_regression_featue_selection( features,grades, num_features, display_df = F
     
     return reduced_df
     
+#=============================================================== scaler ==================================================================  
+def scaler(scaler_type):
+    
+    
+    ''' Creates machine learning pipelines with a specific type of scaler(whether MinMaxScaler or StandardScaler)
+    ARG:
+    scaler_type(string): name of scaler
+    RETURNS:
+    pip(pipelone): pipe line object created
+    
+    '''
+    
+    if scaler_type == 'standard':
+        scaler = StandardScaler()
+    elif scaler_type == 'minmax':
+        scaler = MinMaxScaler()
+        
+    seed = 42
+        
+    pip = []
+    pip.append((scaler_type+'_Lasso', Pipeline([('Scaler',scaler),('Lasso', Lasso())])))
+    pip.append((scaler_type+'_Ridge', Pipeline([('Scaler',scaler),('Ridge', Ridge())])))
+    pip.append((scaler_type+'_ElasticNet', Pipeline([('Scaler',scaler),('ElasticNet', ElasticNet())])))
+    pip.append((scaler_type+'_RandromForest', Pipeline([('Scaler',scaler),('RandromForest', RandomForestRegressor(random_state = seed))])))
+    pip.append((scaler_type+'_GradientBoost', Pipeline([('Scaler',scaler),('GradientBoost', GradientBoostingRegressor(random_state = seed))])))
+    pip.append((scaler_type+'_BagginRegressor', Pipeline([('Scaler',scaler),('BagginRegressor', BaggingRegressor(random_state = seed))])))
+    pip.append((scaler_type+'_SVM', Pipeline([('Scaler',scaler),('SVM', SVR())])))
+
+    
+    
+    return pip
+
+#=============================================================== df_scores ==================================================================  
+
+def df_scores(names, results):
+    
+    '''Creates dataframe that display the name of the models and their comrresponding score
+    ARG:
+    names(list): list with model names
+    results(list): list with scores of the models
+    
+    RETURNS:
+    df(dataframe): dataframe with model names and their scores'''
+    
+    df_dict = {'Model_name':names,
+              'Score':results}
+    df = pd.DataFrame(df_dict)
+    
+    return df
+
+
+#=============================================================== scaler ==================================================================  
