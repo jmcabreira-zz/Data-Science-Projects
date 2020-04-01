@@ -3,6 +3,30 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import BaggingRegressor
+from sklearn.linear_model import Lasso
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import ElasticNet
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVR 
+
+
+from sklearn.metrics import make_scorer
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import median_absolute_error
+
+from sklearn.model_selection import learning_curve
+
+
+from sklearn.model_selection import  KFold, cross_val_score
+
 
 # <=========================================================================================================================>  
 # <============================================ DATA PREPROCESSING ==========================================================> 
@@ -242,9 +266,10 @@ def create_base_models():
     
     RETURNS:
     models(list): list containing base line models'''
-
+    
+    seed = 42
+    
     models = []
-    #models.append(('Linear Regression', LinearRegression()))
     models.append(('Lasso', Lasso()))
     models.append(('Ridge', Ridge()))
     models.append(('ElasticNet', ElasticNet()))
@@ -252,7 +277,6 @@ def create_base_models():
     models.append(('GradientBoost', GradientBoostingRegressor(random_state = seed)))
     models.append(('BagginRegressor', BaggingRegressor(random_state = seed)))
     models.append(('SVM' , SVR()))
-    
     
     return models
 
@@ -286,7 +310,7 @@ def evaluate_models(features, grades, models, learning_curve_ = False):
         
         rmse = np.sqrt(-cv_results)
         rmse_score = np.round(np.mean(rmse),2)
-        rmse_std = np.round(np.str(rmse),2)
+        rmse_std = np.round(np.std(rmse),2)
         
         results.append(rmse_score)
         names.append(name)
@@ -295,32 +319,35 @@ def evaluate_models(features, grades, models, learning_curve_ = False):
         print('RMSE score for {} is {} with std of {}'.format(name, rmse_score, rmse_std))
         
         if learning_curve_:
-            plot_learning_curve(features, grades, model)
+            plot_learning_curve(features, grades, model, name)
             
             
     return names, results
     
 #================================================ plot_learning_curve ==========================================================
     
-def plot_learning_curve(features, grades, name, model):
+def plot_learning_curve(features, grades, model, name):
     '''Plot learning curve curve of each model
     
     ARG: 
     features(datafame): dataframe with the features of the model
     grades(Serie): Serie with the target values
-    models(list): list of models to be performed 
+    model(string): model to be performed 
+    name(string): name of the model
     
     RETURNS:
         none '''
 
     #for name, model in models:
-    train_sizes, train_scores, test_scores = learning_curve(model,features,
-                                                        grades,  cv = 10 , 
-                                                        scoring = 'neg_mean_squared_error',
-                                                        train_sizes = np.linspace(0.1, 1.0, 10),
-                                                        n_jobs = -1) 
+    train_sizes, train_scores, test_scores = learning_curve(model,
+                                                            features,
+                                                            grades, 
+                                                            cv = 10,
+                                                            scoring = 'neg_mean_squared_error',
+                                                            n_jobs =-1,
+                                                            train_sizes = np.linspace(0.1, 1.0, 10)) 
+ 
     plt.grid()
-
 
     # Create means and standard deviations of training set score
     train_scores_mean = np.mean(train_scores, axis = 1)
@@ -396,6 +423,10 @@ def f_regression_featue_selection( features,grades, num_features, display_df = F
     
     if display_df:
         display(score_df)
+        print()
+        
     
-    return score_df
+    reduced_df = features.loc[:,list(score_df.index)]
+    
+    return reduced_df
     
