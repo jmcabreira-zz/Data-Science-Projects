@@ -4,7 +4,7 @@
 
 # Student Grades Prediction (National High School Exam) - 2016
 
-The ENEM is the most important exam in Brazil in which students use their scores to be admitted to a university (specially Federal (and public) Institutions, which usually require really high scores due to their high academic reputation and quality). The exam includes subjects such as Portuguese, History, Geography, Math, Physics, Chemistry and Biology and is taken in two days(weekend).
+The ENEM is the most important exam in Brazil in which students use their scores to be admitted to a university (*specially Federal- and public- Institutions, which usually require really high scores due to their high academic reputation and quality*). The exam includes subjects such as Portuguese, History, Geography, Math, Physics, Chemistry and Biology and is taken in two days(weekend).
 
 <p align="center">
   <img  src="images/enem.png">
