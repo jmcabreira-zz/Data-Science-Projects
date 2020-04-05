@@ -100,6 +100,30 @@ def bar_plot(df, plot_num, col_list , nrows, ncols):
     
     plt.tight_layout()
     
+#================================================ family_income ==========================================================      
+    
+def family_income(income):
+    
+    '''Devide the categories in three groups ( low wage, medium wage and high wage)
+    ARG:
+    income(Series): series with the categories (feature)
+    
+    RETURNS:
+    x (integer): Integer representing the income wage group'''
+    
+    # Low wage
+    if income in ['A','B','C','D','E']:
+        x= 1
+    # medium wage
+    elif income in ['F','G','H','I','J', 'K']:
+        x = 2
+     #high wage   
+    else:
+        x = 4
+        
+    return x
+
+    
 #================================================ missing_data_columns_df ==================================================   
   
     
@@ -240,16 +264,17 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 #================================================ feature_engineering_encode ========================================================  
 
-def feature_engineering_encode(df):
+def feature_engineering_encode(df, apply_ohe = False):
     
     df_dummies = feature_engineering_ordinal(df)
     
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='SG_UF_RESIDENCIA',top_x_labels = 10)
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='Q006'       ,top_x_labels = 10)
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_CN',top_x_labels = 10)
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_CH',top_x_labels = 10)
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_LC',top_x_labels = 9)
-    df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_MT',top_x_labels = 9)
+    if apply_ohe:
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='SG_UF_RESIDENCIA',top_x_labels = 27)
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='Q006'       ,top_x_labels = 17)
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_CN',top_x_labels = 10)
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_CH',top_x_labels = 10)
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_LC',top_x_labels = 9)
+        df_dummies = one_hot_encode_top_x(df_dummies, variable_name ='CO_PROVA_MT',top_x_labels = 9)
     
     return df_dummies
 
@@ -310,14 +335,14 @@ def evaluate_models(features, grades, models, learning_curve_ = False):
                                     n_jobs = -1 )
         
         rmse = np.sqrt(-cv_results)
-        rmse_score = np.round(np.mean(rmse),2)
-        rmse_std = np.round(np.std(rmse),2)
+        rmse_mean = np.round(np.mean(rmse),4)
+        rmse_std = np.round(np.std(rmse),4)
         
-        results.append(rmse_score)
+        results.append(rmse_mean)
         names.append(name)
         
         print()
-        print('RMSE score for {} is {} with std of {}'.format(name, rmse_score, rmse_std))
+        print('RMSE score for {} is {} with std of {}'.format(name, rmse_mean, rmse_std))
         
         if learning_curve_:
             plot_learning_curve(features, grades, model, name)
@@ -328,18 +353,7 @@ def evaluate_models(features, grades, models, learning_curve_ = False):
 #================================================ plot_learning_curve ==========================================================
     
 def plot_learning_curve(features, grades, model, name):
-    '''Plot learning curve curve of each model
-    
-    ARG: 
-    features(datafame): dataframe with the features of the model
-    grades(Serie): Serie with the target values
-    model(string): model to be performed 
-    name(string): name of the model
-    
-    RETURNS:
-        none '''
 
-    #for name, model in models:
     train_sizes, train_scores, test_scores = learning_curve(model,
                                                             features,
                                                             grades, 
@@ -351,36 +365,32 @@ def plot_learning_curve(features, grades, model, name):
     plt.grid()
 
     # Create means and standard deviations of training set score
-    train_scores_mean = np.mean(train_scores, axis = 1)
-    rmse_train = np.sqrt(-train_scores_mean)
-    rmse_train_std = np.std(rmse_train)
-    #train_std = np.std(train_scores, axis = 1)
+    rmse_train_scores = np.sqrt(-train_scores)
+    rmse_train_mean = np.round(np.mean(rmse_train_scores, axis = 1),3)
+    rmse_train_std = np.std(rmse_train_scores, axis = 1)
 
 
     # Create means and standard deviations of test set score
-    test_scores_mean = np.mean(test_scores, axis = 1)
-    rmse_test = np.sqrt(-test_scores_mean)
-    rmse_test_std = np.std(rmse_test)
-
-
-    #test_std = np.std(test_scores, axis = 1)
+    rmse_test_scores = np.sqrt(-test_scores)
+    rmse_test_mean = np.round(np.mean(rmse_test_scores, axis = 1),3)
+    rmse_test_std = np.std(rmse_test_scores, axis = 1)
+    
 
     #Draw curve
-    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_train, 'o-', color = "#111111",  label = 'training score')
-    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_test,'o-', color = "blue", label ='cros-validation score' )
+    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_train_mean, 'o-', color = "#111111",  label = 'training score')
+    plt.plot(np.linspace(.1, 1.0, 10)*100, rmse_test_mean,'o-', color = "blue", label ='cros-validation score' )
 
     #Draw bands
 
-    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_train - rmse_train_std, rmse_train + rmse_train_std, color="#DDDDDD")
-    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_test - rmse_test_std, rmse_test + rmse_test_std, color="#DDDDDD")
+    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_train_mean - rmse_train_std, rmse_train_mean + rmse_train_std, color="#DDDDDD")
+    plt.fill_between(np.linspace(.1, 1.0, 10)*100, rmse_test_mean - rmse_test_std, rmse_test_mean + rmse_test_std, color="#DDDDDD")
 
 
     # Plot
     plt.title('Learning Curve for {} model'.format(name))
     plt.xlabel('% of training set')
-    plt.ylabel('RMS')
-    #plt.yticks(np.arange(0.45, 1.02, 0.05))
-    plt.xticks(np.arange(0., 100.05, 10))
+    plt.ylabel('RMSE')
+    plt.xticks(np.linspace(.1, 1.0, 10)*100)
     plt.legend(loc = 'best')
     plt.tight_layout()
     plt.show()
@@ -481,5 +491,79 @@ def df_scores(names, results):
     
     return df
 
+#=============================================================== model_tuning ================================================================== 
 
-#=============================================================== scaler ==================================================================  
+def model_tuning( model , param_grid, X, Y, name,learning_curve_ = False):
+    
+    ''' Applies GridSearchCV in order to tune a given model
+
+    ARGS:
+        model (estimator) - model to be tuned 
+        param_grid (dictionary) - dictionary of the parameters
+        X_train (dataframe) - dataframe with the features
+        learning_curve (bool) - whether or not to plot learning curve.
+
+    RETURNS:
+        name (string) - name of the model
+        rmse_score (float) - RMSE score of the model
+        best_estimator(sklearn estimator): The best estimator'''
+    
+
+    grid = GridSearchCV( estimator = model,
+                       param_grid = param_grid,
+                       scoring = 'neg_mean_squared_error',
+                       cv = 10,
+                       n_jobs = -1)
+
+    grid.fit(X, Y)
+    result = grid.best_score_  
+    rmse_score = np.round(np.sqrt(-result),4)
+    best_estimator = grid.best_estimator_
+    
+    
+
+    print('name: {} - RMSE score: {:.4f}'.format(name, rmse_score))
+    
+       
+    
+    if learning_curve_:
+            plot_learning_curve(X, Y, best_estimator, name)
+        
+        
+    
+        
+    return rmse_score, best_estimator
+
+
+#=============================================================== clean_test_df ================================================================== 
+
+def clean_test_df(test_df, train_columns):
+    
+    '''Clean the test dataframe in ordecr to predict the gradecs
+    
+    ARG:
+    test_df(dataframe): dataframe to be processed 
+    train_columns(list): list with the column names of the training dataset
+    
+    RETURNS:
+    test_df(dataframe): the processed test dataframe
+    test_NU_INSCRICAO(series): A series containing the id of the test set candidates'''
+    
+    test_NU_INSCRICAO = test_df.NU_INSCRICAO
+    
+    test_df.drop('NU_INSCRICAO', axis = 1, inplace = True)
+
+    test_df = test_df.loc[:, train_columns]
+
+    test_df['NU_NOTA_COMP1'].fillna(0,inplace=True)
+    test_df['NU_NOTA_COMP2'].fillna(0,inplace=True)
+    test_df['NU_NOTA_COMP3'].fillna(0,inplace=True)
+    test_df['NU_NOTA_COMP4'].fillna(0,inplace=True)
+    test_df['NU_NOTA_COMP5'].fillna(0,inplace=True)
+    test_df['NU_NOTA_CN'].fillna(0,inplace=True)
+    test_df['NU_NOTA_REDACAO'].fillna(0,inplace=True)
+    test_df['NU_NOTA_CH'].fillna(0,inplace=True)
+    test_df['NU_NOTA_LC'].fillna(0,inplace=True)
+
+
+    return test_df, test_NU_INSCRICAO
