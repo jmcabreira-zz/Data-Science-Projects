@@ -2,7 +2,7 @@
 
 ![](images/CabreiraLogo.png)
 
-# Student Gradec Prediction (National High School Exam) - 2016
+# Student Grades Prediction (National High School Exam) - 2016
 
 The ENEM is the most important exam in Brazil in which students use their scores to be admitted to a university (specially Federal (and public) Institutions, which usually require really high scores due to their high academic reputation and quality). The exam includes subjects such as Portuguese, History, Geography, Math, Physics, Chemistry and Biology and is taken in two days(weekend).
 
@@ -26,11 +26,11 @@ The subject weights
 - Human science: 1
 - Essay: 3
 
-# To predict:
+## To predict:
  **NU_NOTA_MT**
 
 
-# About me:
+## About me:
 
 I am an electrical engineer turned data scientist who loves leveraging data-driven solutions that make an impact on business and society. My first encounter with data science occurred when I worked as a student researcher at the Applied Computational Intelligence Laboratory (Fluminense Federal University) in which I built Artificial Neural Network models for power forecast.
 
