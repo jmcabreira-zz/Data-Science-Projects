@@ -1,34 +1,39 @@
-# Descubra as melhores notas de matemática do ENEM 2016
 
-Você deverá criar um modelo para prever a nota da prova de matemática de quem participou do ENEM 2016. 
 
-## Tópicos
+![](images/CabreiraLogo.png)
 
-Neste desafio você aprenderá:
+# Predicting Students Grades on ENEM exam (National High School Exam) - 2016
 
-- Lógica
-- Análise de dados
-- Estatística
-- Regression
+The ENEM is the most important exam in Brazil in which students use their scores to be admitted to a university (specially Federal (and public) Institutions, which usually require really high scores due to their high academic reputation and quality). The exam includes subjects such as Portuguese, History, Geography, Math, Physics, Chemistry and Biology and is taken in two days(weekend).
 
-## Detalhes
+<p align="center">
+  <img  src="images/enem.png">
+</p>
 
-O contexto do desafio gira em torno dos resultados do ENEM 2016 (disponíveis no arquivo train.csv). Este arquivo, e apenas ele, deve ser utilizado para todos os desafios. Qualquer dúvida a respeito das colunas, consulte o [Dicionário dos Microdados do Enem 2016](https://s3-us-west-1.amazonaws.com/acceleration-assets-highway/data-science/dicionario-de-dados.zip).
 
-Muitas universidades brasileiras utilizam o ENEM para selecionar seus futuros alunos e alunas. Isto é feito com uma média ponderada das notas das provas de matemática, ciências da natureza, linguagens e códigos, ciências humanas e redação. Determine os 20 melhores colocados, por ordem, para os pesos abaixo:
+## Data
 
-- matemática: 3
-- ciências da natureza: 2
-- linguagens e códigos: 1.5
-- ciências humanas: 1
-- redação: 3
+- Dicionario_Microdados_Enem_2016.xlsx - dictionary with dataset information
+- utils.py - Utility file with all functions I built during the project
+- Student_grade_prediction.ipynb - Project Notebook
 
-No arquivo test.csv crie um modelo para prever nota da prova de matemática (coluna **NU_NOTA_MT**) de quem participou do ENEM 2016. 
 
-Salve sua resposta em um arquivo chamado answer.csv com duas colunas: **NU_INSCRICAO** e **NU_NOTA_MT**.
+The subject weights
 
-Faça o upload do arquivo answer.csv usando o botão "Submeter resposta".
+- Mathematics: 3
+- natural Science: 2
+- Linguages (comunication): 1.5
+- Human science: 1
+- Essay: 3
 
-## Observações
+# To predict:
+ **NU_NOTA_MT**
 
-O objetivo do desafio é avaliar a sua capacidade de resolver problemas, então ele pode ser resolvido em qualquer linguagem de programação ou ferramenta que você tenha facilidade. Mas recomendamos o uso de linguagens com maior ferramental de matemática e estatística como Python, R, Scala ou Julia.
+
+# About me:
+
+I am an electrical engineer turned data scientist who loves leveraging data-driven solutions that make an impact on business and society. My first encounter with data science occurred when I worked as a student researcher at the Applied Computational Intelligence Laboratory (Fluminense Federal University) in which I built Artificial Neural Network models for power forecast.
+
+Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
+
+Right now, I’m currently working on projects related to machine learning and data science which includes customer segmentation, sales prediction and plagiarism detection.
