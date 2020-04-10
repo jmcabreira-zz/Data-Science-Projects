@@ -18,7 +18,10 @@
 
 
 ## To predict:
- **The next month of energy generation**
+ * The next month of energy generation
+
+## Tools:
+* Python and Amazon SageMaker
 
 
 ## About me:
