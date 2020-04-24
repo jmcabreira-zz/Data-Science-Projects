@@ -4,40 +4,46 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
+# <=========================================================================================================================>  
+# <================================================= FEATURE ENGINEERING ====================================================> 
+# <==========================================================================================================================> 
 
-
-
+# <===============================================   clean_df    ========================================================>
 
 def clean_df(df):
-    
-    
-    
-    
+
     # Drop empty price rows
     cleaned_price = empty_price(df)
+    
+    
+    # Convert features to numeric
+    df.astype({'price': 'int64',
+           'regdate':'int',
+          'mileage':'int64'}).dtypes
+    
+    
     
     # Create features from extra column and apply one hot encode
     df = extra_features(cleaned_price)
     
-    # Apply Ohe on categorical features - considering only top frequency components
+    #Apply Ohe on categorical features - considering only top frequency components
     
-    to_dummies = ['financial', 'brand', 'cartype', 'model','gearbox', 'motorpower', 'fuel',          'car_steering','carcolor','exchange']
     
-    top_x_feat = [4,2,8,32,3,10, 10,2,4,10,2]
+    to_dummies = ['financial', 'brand', 'cartype', 'model','gearbox', 'motorpower', 'fuel','car_steering',
+                  'carcolor','exchange']
+    
+    top_x_feat = [5,3,6,16,4,6,3,4,11,3]
         
     for feature, top_x in zip(to_dummies,top_x_feat):
         df_dummies = one_hot_encode_top_x(df, variable_name = feature ,top_x_labels = top_x)
         
         
-    return df_dummies
+    return df
         
     
     
-    
-    
-    
-    
-    
+# <=============================================   one_hot_encode_top_x   ===================================================>    
+
     
 def one_hot_encode_top_x(df, variable_name, top_x_labels):
     
@@ -54,19 +60,22 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
     
     df(dataframe): dataframe with top categories re-encoded (one hot encode)
     """
-   
+    
+       
+
     top_x = [x for x in df[variable_name].value_counts().sort_values(ascending = False).head(top_x_labels).index]
     
-    
+
+     
     for label in top_x:
-        df[variable_name+'_'+label] = np.where(df[variable_name] == label,1,0)
+        df[variable_name+'_'+str(label)] = np.where(df[variable_name] == label,1,0)
     
-    df.drop([variable_name], axis = 1, inplace = True)
-    
+    df.drop([variable_name], axis = 1, inplace = True)    
+        
     
     return df  
 
-
+# <=============================================       extra_features     ===================================================>
 
 def extra_features(df):
     
@@ -102,9 +111,12 @@ def extra_features(df):
     df = fill_in_the_features(df)
     
     
+       
     
     return df
 
+
+# <=============================================    fill_in_the_features   =================================================>
 
 
 def fill_in_the_features(df):
@@ -148,12 +160,9 @@ def fill_in_the_features(df):
     df.drop('extra', axis = 1, inplace = True)
     
     return df
-    
 
-
-
-
-
+# <=============================================         empty_price         =================================================>
+  
 
 def empty_price(df):
     
@@ -174,7 +183,6 @@ def empty_price(df):
     no_empty_df = no_empty_df.reset_index(drop=True)
     
     return no_empty_df
-
 
 
     
