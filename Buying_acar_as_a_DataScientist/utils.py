@@ -8,7 +8,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 
-clean_df(df):
+def clean_df(df):
+    
+    
     
     
     # Drop empty price rows
@@ -23,7 +25,7 @@ clean_df(df):
     
     top_x_feat = [4,2,8,32,3,10, 10,2,4,10,2]
         
-    for feature, top_x in zip(to_dummies,top_x_feat:
+    for feature, top_x in zip(to_dummies,top_x_feat):
         df_dummies = one_hot_encode_top_x(df, variable_name = feature ,top_x_labels = top_x)
         
         
@@ -66,7 +68,7 @@ def one_hot_encode_top_x(df, variable_name, top_x_labels):
 
 
 
-extra_features(df):
+def extra_features(df):
     
     
     ''' Create individual features from extra column
@@ -79,16 +81,23 @@ extra_features(df):
     
     
     # check the greter extra variable length in order to identify all possible individual features  
-    greater_length = max([len(x) if type(x) == str else x for x in df.extra])
-    extra_features = df.loc[df.extra_len == greater_length, :].extra.head(1).values[0]
     
-    n_of_reatures = len(features[0].rsplit(','))
+    string_length_list = [len(x) if type(x) == str else x for x in df.extra]
+    
+    greater_length = max(string_length_list)
+    
+    greater_length_index = max([(v,i) for i,v in enumerate(string_length_list)])[1]
+
+    extra_features = df.iloc[greater_length_index].extra
+
+    
+    n_of_features = len(extra_features.rsplit(','))
     
     # Create column for each feature in extra column    
-    for feature in range(n_of_reatures):
-    
-    colname= features[0].rsplit(',')[feature].strip()
-    df[colname] = 0.0
+    for feature in range(n_of_features):
+        colname = extra_features.rsplit(',')[feature].strip()
+        df[colname] = 0.0
+        
     
     df = fill_in_the_features(df)
     
@@ -146,7 +155,7 @@ def fill_in_the_features(df):
 
 
 
-empty_price(df):
+def empty_price(df):
     
     ''' Deletes row with empty price
     ARG:
