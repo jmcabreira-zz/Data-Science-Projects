@@ -15,6 +15,10 @@ def clean_df(df):
     # Drop empty price rows
     cleaned_price = empty_price(df)
     
+
+    #Deletes rows where specified feature is zero
+    colnames= ['price','model', 'mileage']
+    df = del_rows(df,colnames)
     
     # Convert features to numeric
     df.astype({'price': 'int64',
@@ -44,6 +48,38 @@ def clean_df(df):
     
 # <=============================================   one_hot_encode_top_x   ===================================================>    
 
+def del_rows(df, features):
+    '''Deletes rows where specified feature is zero
+    
+    ARG: 
+    df(dataframe): The dataframe that will be processed
+    features(list): List of strings containing the features that zero  needs to be deleted
+    
+    RETURNS:
+    df_drop(dataframe): The dataframe with specific rows deleted'''
+    
+    df_drop = df.copy()
+    
+    for feature in features:
+        # Rows where price equals zero - index
+        zeros_index = df_drop.loc[df_drop[feature] == 0 , : ].index
+        # drow rows
+        df_drop = df_drop.drop(zeros_index, axis = 0)
+        
+    df_drop = df_drop.reset_index(drop=True)
+        
+    return df_drop
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 def one_hot_encode_top_x(df, variable_name, top_x_labels):
     
