@@ -19,8 +19,8 @@ year_2 = "36" #2018
 #URL
 url = "https://rj.olx.com.br/autos-e-pecas/carros-vans-e-utilitarios/{maker}/flex?o={page}&re={year_2}&rs={year_1}"
 
-# User- agent for get response
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'}
+# User- agent for get response -- > DO NOT FORGET TO ADD THE USER-AGENT
+headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64)'}
 
 #<=================================================   download_search_page   ================================================> 
 
@@ -113,15 +113,14 @@ def parse_car_page(page_html, car_link):
 
     # Find the piece of HTML where the car information is stored 
     car_info = parsed.find_all(string=re.compile("window.dataLayer"))
+    print(car_info)
 
     # test whether the bs4 obj(car_info)is empty
     if is_empty_test(car_info) == True:
         pass
     else:
-
-        data = car_info_parser(car_info,car_link )
+        return car_info_parser(car_info,car_link )
         
-    return data
 
 
 #<=================================================   car_info_parser   ====================================================>     
