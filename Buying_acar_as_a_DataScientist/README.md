@@ -4,10 +4,10 @@
 
 This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
- - In this project, I built a car recommendation system. The web app searches for cars on a webpage, processes the data and passes it through a machine learning model in order to provide cars that I would most likely to buy. 
+ - In this project, I built a car recommendation system. The web app searches for cars on a webpage processes the data and passes it through a machine learning model in order to list and display cars that probably would like to buy.
  - I used an ensemble model made of lightGBM and random forest and deploy it using docker container
  
-  	
+ - [Webapp Link](https://car-recommender-jmcabreira.herokuapp.com/)
 
 
 <p align="center">
