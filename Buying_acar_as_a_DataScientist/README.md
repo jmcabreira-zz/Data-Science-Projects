@@ -11,7 +11,7 @@ This is the repo in which I post my data science, machine learning and deep lear
 
 
 <p align="center">
-  <img  src="deploy/static/images/car_rec.png">
+  <img  src="deploy/static/images/3zbq14.gif">
 </p>
 
 # Project Motivation:
