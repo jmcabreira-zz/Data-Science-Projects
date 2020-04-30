@@ -11,49 +11,42 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 # <===============================================   clean_df    ========================================================>
 
 def clean_df(df):
-    
-    
-    # Convert features to numeric
-    df.astype({'price': 'int64',
-               'regdate':'int',
-              'mileage':'int64'}).dtypes
-    
 
     # Drop empty price rows
-    not_empty_price = empty_price(df)
+    cleaned_price = empty_price(df)
     
 
     #Deletes rows where specified feature is zero
     colnames= ['price','model', 'mileage']
-    no_zero_df = del_rows( not_empty_price , colnames)
+    df = del_rows(df,colnames)
     
-
+    # Convert features to numeric
+    df.astype({'price': 'int64',
+           'regdate':'int',
+          'mileage':'int64'}).dtypes
+    
+    
+    
     # Create features from extra column and apply one hot encode
-    added_extra_features = extra_features(no_zero_df)
-    
-    # Clean doors column and convert values into int
-    doors_cleaned = clean_doors_col(added_extra_features)
-    
-    
-    
-    
+    df = extra_features(cleaned_price)
     
     #Apply Ohe on categorical features - considering only top frequency components
-
+    
+    
     to_dummies = ['financial', 'brand', 'cartype', 'model','gearbox', 'motorpower', 'fuel','car_steering',
                   'carcolor','exchange']
     
     top_x_feat = [5,3,6,16,4,6,3,4,11,3]
         
     for feature, top_x in zip(to_dummies,top_x_feat):
-        df_dummies = one_hot_encode_top_x(doors_cleaned, variable_name = feature ,top_x_labels = top_x)
+        df_dummies = one_hot_encode_top_x(df, variable_name = feature ,top_x_labels = top_x)
         
         
-    return df_dummies
+    return df
         
     
-# <================================================       del_rows      ===================================================>    
-
+    
+# <=============================================   one_hot_encode_top_x   ===================================================>    
 
 def del_rows(df, features):
     '''Deletes rows where specified feature is zero
@@ -63,24 +56,29 @@ def del_rows(df, features):
     features(list): List of strings containing the features that zero  needs to be deleted
     
     RETURNS:
-    df(dataframe): The dataframe with specific rows deleted'''
+    df_drop(dataframe): The dataframe with specific rows deleted'''
     
- 
+    df_drop = df.copy()
     
     for feature in features:
         # Rows where price equals zero - index
-        zeros_index = df.loc[df[feature] == 0 , : ].index
+        zeros_index = df_drop.loc[df_drop[feature] == 0 , : ].index
         # drow rows
-        df.drop(zeros_index, axis = 0, inplace = True)
+        df_drop = df_drop.drop(zeros_index, axis = 0)
         
-    df = df.reset_index(drop=True)
+    df_drop = df_drop.reset_index(drop=True)
         
-    return df
-        
+    return df_drop
         
     
     
-# <=============================================   one_hot_encode_top_x   ===================================================> 
+    
+    
+    
+    
+    
+    
+    
     
     
 def one_hot_encode_top_x(df, variable_name, top_x_labels):
@@ -222,19 +220,10 @@ def empty_price(df):
     
     return no_empty_df
 
-# <=============================================        clean_doors_col        ===============================================>
+
     
     
-def clean_doors_col(df):
     
-    df['doors'] = df['doors'].str.extract(r"(\d)", expand = False)
-    # replace nan (previously zero) with 2
-    df['doors'].fillna(2, inplace = True)
-    # convert to int
-    df['doors'] = df['doors'].astype(int)
-    
-    
-    return df    
     
     
     
