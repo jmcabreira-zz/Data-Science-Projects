@@ -3,41 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <image class = "logo" ; src ="{{ url_for('static', filename='images/CabreiraLogo.png',width=700, height=300)}}">
+          
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <image class = "logo"  src ="{{ url_for('static', filename='images/CabreiraLogo.png',width=700, height=300)}}">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
        
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-
-  <title style="text-align:center;">Car Recommender System</title>   
-    
+        
     <style type ="text/css">
         
-          .logo {
-        width: 40% !important;
-        margin: 00px 420px;
+        .logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
                 }
-     
-        nav {
-            text-align: center;
-            background-color:#001f3f;
-            padding: 10px;
-            }
-        
-        nav a {
-            text-align: center;
-            text-decoration:none;
-            color:#fff;
-               }
     </style>
-</head>
-<body>   
-    
-     <nav>
-        <a  href="https://www.linkedin.com/in/cabreirajm/">Linkedin</a>
-        <a  href="https://medium.com/@cabreirajm">Medium</a>
-        <a  href="https://github.com/jmcabreira">GitHub</a>
+ </head>
+    <body>   
 
-    </nav>
-   
-  {% block content %}{% endblock %}
+         <nav>
+            <a  href="https://www.linkedin.com/in/cabreirajm/">Linkedin</a>
+            <a  href="https://medium.com/@cabreirajm">Medium</a>
+            <a  href="https://github.com/jmcabreira">GitHub</a>
+
+         </nav>
+
+      {% block content %}{% endblock %}
 </body>
 </html>

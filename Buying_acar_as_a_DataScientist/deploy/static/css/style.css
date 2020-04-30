@@ -1,4 +1,5 @@
 
+
 nav {
     text-align: center;
     background-color:#001f3f;
@@ -10,3 +11,9 @@ nav a {
     text-decoration:none;
     color:#fff;
                }
+
+                            
+.prediction-table th,
+.prediction-table td{
+    padding: 1202px 15px;
+                             }

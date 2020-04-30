@@ -2,65 +2,18 @@
 
 {% block content %}
 
-<style>
-    
 
-    .prediction-table {
-        width: 20% !important;
-
-        border-collapse: collapse;
-        margin: 30px 550px;
-        font-size: 0.9em;
-        min-width: 400px;
-        border-radius: 5px 5px 0 0;
-        overflow: hidden;
-        box-shadow: 0 0 20px rgba(0,0,0,0,0.15);
-      
-                        }
-
-    
-    .prediction-table thead tr{
-        
-        background-color:#001f3f;
-        color: #fff;
-        text-align:left;  
-        font-weight: bold; 
-   
-                                }
-    .prediction-table th,
-    .prediction-table td{
-        padding: 12px 15px;
-                                 }
-    
-    .prediction-table tbody td {
-     
-        
-        border-bottom: 1px solid #dddddd;
-        
-    }
-    
-    .prediction-table tbody tr:nth-of-type(even){
-        
-        background-color: #f3f3f3
-    }
-    .prediction-table tbody tr: last-of-type{
-        border-bottom: 2px solid #001f3f
-        
-    }
-    
-
-</style>   
 <h1 style="text-align:center;">Car Recommendation System </h1>
-
-<table class = "prediction-table">
+<div class = "container">
+<table class = " table table-striped table-bordered table-hover table-predictions ">
     <thead>
-    <tr>
-        <th scope="col">Cars</th>
-        <th scope="col">Scores</th>
+    <tr class = "danger">
+        <th style="text-align:center;">Cars</th>
+        <th style="text-align:center;" >Scores</th>
     </tr>
     </thead>
 
-    <tbody >
+    <tbody style="text-align:center;">
     {% for prediction in predictions %}
     <tr>
         <td><a href="{{prediction.car_link}}">{{prediction.car}}</a></td>
@@ -69,6 +22,7 @@
     {% endfor %}
     </tbody>
 </table>
+</div>    
 {% endblock content %}
 
 
