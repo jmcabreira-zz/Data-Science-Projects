@@ -4,6 +4,8 @@
 
 This is the repo in which I post my data science, machine learning and deep learning projects
 # Projects :
+
+ - [Buying_acar_as_a_DataScientist](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Buying_acar_as_a_DataScientist)
  - [Customer_Segmentation_Report](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Customer_Segmentation_Report)
  - [Plagiarism_Detection](https://github.com/jmcabreira/Data-Science-Projects/tree/master/Project_Plagiarism_Detection)
  - [Youtube Video Reccomendation System](https://github.com/jmcabreira/Data-Science-Projects/blob/master/Youtube_Video_Recommendation_System/README.md)
@@ -22,5 +24,7 @@ This is the repo in which I post my data science, machine learning and deep lear
 
 Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
 
-Right now, I’m currently working on projects related to machine learning and data science which includes customer segmentation, sales prediction.
+Right now, I’m currently trying to buy a car ( as a data scientist :) ). In other words, I am working on a personal project which includes web scraping, data analysis, machine learning, and web application (link below).
+
+-[webapp Link](https://car-recommender-jmcabreira.herokuapp.com/)
  
