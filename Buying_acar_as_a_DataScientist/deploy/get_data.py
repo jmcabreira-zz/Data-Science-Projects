@@ -211,8 +211,20 @@ def car_info_parser(car_info, car_link):
     return data
 
 
+#<=================================================   dashboard_car_info   ====================================================>     
 
-
+def dashboard_car_info(car_json_data):
+    
+    dashb_car_json = {}
+    features = ['brand', 'model', 'version', 'gearbox',
+               'cartype','regdate', 'mileage', 'motorpower','fuel', 'car_steering', 'carcolor','doors','financial','extra']
+    
+    for feature in features:
+        dashb_car_json[feature] = car_json_data[feature]
+        
+   
+    return dashb_car_json
+    
 
 
 
