@@ -52,7 +52,7 @@ def main():
         mean_price_chart = mean_price(data)
         mean_price_chart
 
-        st.subheader('Model - Motor power')
+        st.subheader('Model - Motor power - Price')
         model_power_price_ = model_power_price(data)
         model_power_price_
 
@@ -60,15 +60,14 @@ def main():
         st.subheader('Model - Regdate')
         chart1 = model_regdate_count(data)
         chart1
-        st.subheader('Financial Status - Regdate')
-        chart2 = financial_regdate(data)
-        chart2
         st.subheader('Model - Motor power')
         chart3 = model_power_count(data)
         chart3
-        st.subheader('Model - Motor power')
-        model_power_price_ = model_power_price(data)
-        model_power_price_
+        st.subheader('Financial Status - Regdate')
+        chart2 = financial_regdate(data)
+        chart2
+        
+       
 
 
 
