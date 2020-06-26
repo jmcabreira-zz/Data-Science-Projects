@@ -1,4 +1,13 @@
 def get_playlists_information(user_id, sp, data_dir = 'playlists_info'):
+	'''Pull playlist list information for a given user id
+
+	PARAMETERS:
+	user_id(string): The user id
+	sp(spotipy object) : An object that provides access to the Spotify API
+	data_dir(string): The name of the foldec in which the data will be stored
+
+	RETURNS:
+	Playlist information as a json file '''
     
     playlists = sp.user_playlists(user_id)
     
