@@ -6,8 +6,8 @@ import spotipy
 import spotipy.util as util 
 from spotipy.oauth2 import SpotifyClientCredentials
 
-client_id = '7caa94d5897b435abdd6fc9e06bb8f04'
-client_secret = '694e12a56652423194e4f092e7304f2b'
+client_id = 'your_client_id'
+client_secret = 'yout_client_secret'
 redirect_uri = 'http://localhost:8080/' 
 #redirect_uri = 'https://spt-recommender.herokuapp.com/' 
 user_id = 'your_user_id'
