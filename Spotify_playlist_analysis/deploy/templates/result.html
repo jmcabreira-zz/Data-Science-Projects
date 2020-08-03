@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <image class = "logo"  src ="{{ url_for('static', filename='images/CabreiraLogo.png',width=700, height=300)}}">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
+        
+    <style type ="text/css">
+        
+        .logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+                }
+    </style>
+  <body>
+    <table class = " table table-striped table-bordered table-hover table-predictions ">
+      {% for key, value in result.items() %}
+      <tr>
+        <th>{{ key }}</th>
+        <td>{{ value }}</td>
+      </tr>
+      {% endfor %}
+      <th>{{'Recomendação'}}</th>
+      {% if pred == 1.0 %}
+      <td>{{'Música Recomendada para Jonathan'}}</td>
+      {% else %}
+      <td>{{'Música Recomendada para emily'}}</td>
+      <td></td>
+      {% endif %}
+    </table>
+
+    {% if pred == 1.0 %}
+      <p align = "center">
+        <img 
+          src="static/images/jonathan.jpeg"
+          width="250px"
+          height="300px"
+          align="center"
+        />
+      </p>
+    {% else %}
+      <p align = "center">
+        <img
+          src="static/images/emily.jpeg"
+          width="250px"
+          height="300px"
+          align="center"
+        />
+      </p>
+    {% endif %}
+  
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <image class = "logo"  src ="{{ url_for('static', filename='images/CabreiraLogo.png',width=700, height=300)}}">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
+               
+    <style type ="text/css">      
+        .logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+                }
+    </style>
+</head>
+  <body>
+    <div class="container">
+      <h1 style="text-align:center;">Recomendador de Música do Spotify </h1>
+      <p style="text-align:center;">Digite uma música para saber se será recomendado para Jonathan ou para Emily</p>
+      <div>
+        <form style="text-align:center" ; action="/result" method="POST">
+
+          <p>Artista <input type="text" name="artist" /></p>
+          <p>Musica <input type="text" name="music" /></p>
+          <p><input type="submit" value="submit" /></p>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
