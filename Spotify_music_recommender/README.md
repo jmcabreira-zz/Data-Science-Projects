@@ -5,6 +5,8 @@
 
 # Spotify Music Recommender
 
+[web application](https://spotify-music-recommender.herokuapp.com/)
+
 # Project :
 
  - The notebook and Python files provided here, result in a simple web app which interacts with a deployed ensemble model ( lightgbm and random forest) performing music recommendation. 
