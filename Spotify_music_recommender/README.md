@@ -1,7 +1,7 @@
 
 
 
-![](images/CabreiraLogo.png)
+![](deploy/static/images/CabreiraLogo.png)
 
 # Spotify Music Recommender
 
@@ -24,6 +24,6 @@
 
 Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
 
-Right now, I’m currently working as data science instructor.
+Right now, I’m currently working as a data science instructor.
 
 
