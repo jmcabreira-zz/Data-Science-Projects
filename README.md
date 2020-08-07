@@ -25,7 +25,11 @@ This is the repo in which I post my data science, machine learning and deep lear
 
 Thereafter, I won a scholarship that allowed me to study at the University of Toronto in Canada. After this experience, I was given the opportunity to work with electrical projects and project management in a small company in Rio de Janeiro, Brazil. My third working contract involved tasks related to the project management of two electrical substation construction projects in a multinational company.
 
-Right now, I’m currently trying to buy a car ( as a data scientist :) ). In other words, I am working on a personal project which includes web scraping, data analysis, machine learning, and web application (link below).
+Right now, I’m currently working for a Brazilian DS platform and I am also a freelancer 
 
--[webapp Link](https://car-recommender-jmcabreira.herokuapp.com/)
+Aplications:
+
+
+-[Car Recommendation System](https://car-recommender-jmcabreira.herokuapp.com/)
+- [Spotify Music Recommendation](https://spotify-music-recommender.herokuapp.com/)
  
