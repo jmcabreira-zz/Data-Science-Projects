@@ -1,0 +1,228 @@
+<img width="280" height="280" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/08897a2d-eb67-4731-bb06-e018baeb2b6f"/><br><br>
+
+Your site's file structure is located under the `src` folder which contains the following folders:
+
+* [backend](/.wix/docs/README-backend.md)
+* [pages](/.wix/docs/README-pages.md)
+* [public](/.wix/docs/README-public.md)
+* [styles](/.wix/docs/README-CSS.md)
+
+<br>
+
+<h2 id="frontend-code" ><img  height="32" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/129988de-e68b-432e-9337-eac1fb5410a1">&nbsp;&nbsp;Adding frontend code to site pages</h2>
+
+<br>
+
+The `src/pages` folder contains code files for each of the pages on your site as well as the [masterpage.js](https://support.wix.com/en/article/velo-working-with-the-velo-sidebar#global-site) file. New pages you add to your site from the editor appear under this folder. Use the [$w API](https://www.wix.com/velo/reference/$w) to interact with your site's elements: 
+
+```javascript
+$w.onReady(function () {
+  
+  $w("elementId").onClick(() => {
+    console.log("Hello World!")
+  })
+
+});
+```
+The code you add to these files runs when visitors open pages on your site.
+
+<h3 style="font-weight:bold">Page code files</h3>
+
+
+When you add a page to your site in the Wix editor, a code file for that page gets added to the pages folder in your repo. The name of the file has 2 components: the name of the page that you define when you create it, and an ID string for internal use. The sections are separated by a period.
+
+<br><img width="350" height="150" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/1b50ae83-1ff8-43a3-879c-2c5c0bab789c"/><br>
+
+
+> **Notes:** 
+> * Do not rename code files for pages. Wix uses these file names to associate the files with the appropriate pages on your site.
+> * You can't create new page code files in the Wix IDE. To add a file, create a new page for your site in the editor. 
+
+<h4 style="font-weight:bold">masterpage.js</h4>
+
+
+The code in your `masterpage.js` runs on all pages of your site. This file is created automatically. Use this file to add code for elements that appear on all pages of your site or for general site functionality.
+
+
+<h3 style="font-weight:bold">Importing code from other files</h3>
+
+
+To import functions from other code files into your page code, using the syntax below. 
+
+For public code files:
+
+```javascript
+import {functionName} from 'public/myFileName';
+```
+
+For backend code files:
+
+```javascript
+import {functionName} from 'backend/myFileName.web';
+```
+>**Note**: Trying to import code from the relative path in your site's files doesn't work.
+
+<br>
+
+
+<br>
+
+<h2 id="backend-code"><img  height="32" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/d60d940c-dc1d-4cf6-8d1e-edfe3c4ef2da">&nbsp;&nbsp;Writing backend code</h2>
+
+The `src/backend` folder contains the backend code files for your site. Backend code files for Wix sites are written in JavaScript and run using the Node.js runtime environment.
+<br>
+
+<h3 style="font-weight:bold">Web methods</h3>
+In order to call backend code from the frontend, use a special type of wrapper function called a web method within a web module. A web module is represented by a file with a `.web.js` suffix. Wix handles all the backend-frontend communication required to enable this access.
+
+
+<br><br>
+Here is an example of a web method that multiplies two numbers:
+
+```javascript
+// math.web.js
+
+export const multiply = webMethod(Permissions.Anyone, (a,b) => {
+    return a * b
+});
+```
+
+This function can be then called from the frontend like this:
+
+```javascript
+// Home.c1dmp.js
+
+import { multiply } from 'backend/math.web.js';
+
+$w.onReady(function () {
+    multiply(3,4).then((results) => {
+        console.log(results);
+    })
+});
+
+```
+
+
+<h3 style="font-weight:bold">Special backend files</h3>
+
+Wix supports special backend files that provide  different functionality. Add the following files to the backend folder to include them in your site:
++ **Web Module files:**  
+  These are files that allow you to expose functions in your site's backend that you can run in your frontend code. These files require a `.web.js` file extension. 
+
++ **data.js**  
+  A file for [adding data hooks](https://support.wix.com/en/article/velo-using-data-hooks) to your site's collections.
+
++ **routers.js**  
+  A file for implementing [routing and sitemap](https://support.wix.com/en/article/velo-about-routers#routing-code) functionality for your site.
+
++ **events.js**  
+  A file for implementing your site's [backend event handlers](https://support.wix.com/en/article/velo-backend-events). 
+
++ **http-functions.js**  
+  A file for implementing [HTTP endpoints](https://www.wix.com/velo/reference/wix-http-functions/introduction) that are exposed on your site.
+
++ **jobs.config**  
+  A file for [scheduling recurring jobs](https://support.wix.com/en/article/velo-scheduling-recurring-jobs). Jobs consist of backend code that's run at regular intervals.
+  
++ **General backend files**  
+  JavaScript code files. You can import code from these files into any other backend file on your site. These files require a `.js` file extension.
+
+<br>
+
+
+<br>
+
+<h2 id="public-code"><img  height="32" src="./img/public.svg">&nbsp;&nbsp;Writing public code</h2>
+
+The `src/public` folder contains the public code files for your site. You can import code from these files into any other file on your site.
+
+To import functions from other files to use in your public code files, use the following syntax. 
+
+For other public code files:
+
+```javascript
+import {functionName} from 'public/myFileName';
+```
+
+For backend code files:
+
+```javascript
+import {functionName} from 'backend/myFileName.web';
+```
+
+>**Note**: Trying to import code from the relative path in your site's repo doesn't work.
+
+<br>
+
+
+<br>
+
+<h2 id="css-code"><img  height="32" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/879fd884-50d9-49c0-8680-7e7065786a47">&nbsp;&nbsp;Customizing your site using CSS</h2>
+
+The `src/styles/global.css` file contains the CSS code for your site. Styling with CSS allows you to completely customize the elements on your site.
+
+There are 2 ways to apply CSS styling to your site:
+
+<h3 style="font-weight:bold">1. Global classes</h3>
+
+Use global classes to apply styling to all elements of a specific type, on all site pages. CSS editing is available for [these supported classes](https://www.wix.com/velo/reference/$w/styling-elements-with-css#$w_styling-elements-with-css_available-classes).
+
+The example below show how to set a red background to all of your buttons in your site.
+
+```css 
+  .button {
+    background-color: red;
+  }
+```
+<h3 style="font-weight:bold">2. Custom classes</h3>
+
+Use custom classs to apply style for specific elements. You can create custom classes using the CSS Classes panel, or with code using the [CustomClassList API](https://www.wix.com/velo/reference/$w/customclasslist).
+
+The example below show how to change the cursor on a button to crosshair:
+```css
+  .myCustomClass {
+    cursor: crosshair;
+  }
+```
+
+<br>
+
+
+<br>
+
+<h2 id="spi-code"><img  height="32" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/2ba347da-57dd-4697-9206-4df4a5afb96e">&nbsp;&nbsp;Adding custom extensions</h2>
+
+[Custom extensions](/.wix/docs/README-SPI.md), also known as SPIs, allow you to add your own custom logic to existing Wix app flows and to integrate services from 3rd party providers. The `src/backend/__spi__` folder contains a subfolder for each custom extension on your site.
+
+The process for implementing an SPI has these steps: 
+1. Create a new extension on your site using the Wix Studio Code panel. 
+1. Implement your extension with custom code using the Wix IDE. 
+1. Deploy the extension by publishing your site. 
+
+Learn more about [custom app extensions using SPIs](https://support.wix.com/en/article/velo-custom-app-extensions-using-spis).
+
+<br>
+
+
+<br>
+
+<h2 id="concurrent"><img  height="32" src="https://github.com/wix-incubator/wix-code-docs/assets/91874936/47071bd3-4294-4bb8-b487-c478067bff87">&nbsp;&nbsp;Working in concurrent mode (Beta)</h2>
+
+Two or more site collaborators can edit a site's code at the same time in the Wix IDE. Edits made in one instance of the IDE are synced to the other instance in real time.
+
+However, you can't edit your site's code in both the Wix IDE and the Wix Studio Code panel at the same time. You also can't edit your code in the Code panel if other site collaborators are editing in the Wix IDE. When you open the Wix IDE, the Code panel switches to read-only mode. The Code panel displays this message:
+
+![Go to Wix IDE button](https://github.com/wix-incubator/wix-code-docs/assets/89579857/b0c53a04-962c-4a88-bf0c-18f521961e5e)
+
+If you want to edit your site's code in the Code panel, all site collaborators must close the Wix IDE. You can then click **Start Coding** in the Code panel.
+
+![Start Coding button](https://github.com/wix-incubator/wix-code-docs/assets/89579857/b5006237-9348-4f84-9597-3cfd82ae952e)
+
+<br>
+
+<blockquote class="tip">
+
+__Tip:__
+Don't forget to [publish your site](https://support.wix.com/en/article/wix-editor-saving-previewing-and-publishing-your-site#publishing-your-site) in the Wix editor to deploy your code.
+
+</blockquote>
